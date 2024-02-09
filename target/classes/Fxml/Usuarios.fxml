@@ -17,11 +17,14 @@
       <VBox layoutX="24.0" layoutY="103.0" prefHeight="300.0" prefWidth="300.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="110.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre" />
-            <TextField />
+            <TextField fx:id="nombreField"/>
+             <Text fx:id="nombreError" styleClass="textoRojo"/>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Apellido" />
-            <TextField />
+            <TextField fx:id="apellidoField"/>
+             <Text fx:id="apellidoError" styleClass="textoRojo"/>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dni" />
-            <TextField />
+            <TextField fx:id="dniField"/>
+             <Text fx:id="dniError" styleClass="textoRojo"/>
          </children>
       </VBox>
       <TableView layoutX="372.0" layoutY="99.0" prefHeight="200.0" prefWidth="472.0">
@@ -33,7 +36,7 @@
       <Label layoutX="322.0" layoutY="48.0" text="GESTION DE USUARIO" />
       <ButtonBar layoutX="302.0" layoutY="401.0" prefHeight="40.0" prefWidth="357.0">
         <buttons>
-          <Button  text="Guardar" onAction="#guardarEmpleado"/>
+          <Button fx:id="guardarButton" text="Guardar" onAction="#guardarEmpleado"/>
             <Button mnemonicParsing="false" text="Actualizar" />
             <Button mnemonicParsing="false" text="Borrar" />
             <Button mnemonicParsing="false" text="Limpiar" />

@@ -2,13 +2,15 @@
 <hibernate-configuration>
     <session-factory>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/gestionusuario</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/gestionusuarios</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="connection.username">root</property>
         <property name="connection.password"></property>
         <property name="show_sql">true</property>
-        <mapping class="Entity.Empleado"></mapping>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
+        <!-- Agrega aquí el mapeo de tu entidad -->
+        <mapping class="Entity.Empleado"></mapping>
     </session-factory>
 </hibernate-configuration>
+A

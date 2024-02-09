@@ -29,9 +29,6 @@
     <orderEntry type="library" name="Maven: com.sun.istack:istack-commons-runtime:4.0.0" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.26" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: javax:javaee-api:8.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sun.mail:javax.mail:1.6.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:16" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:16" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:16" level="project" />
@@ -46,5 +43,6 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:16" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:16" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:16" level="project" />
+    <orderEntry type="library" name="Maven: com.github.MadaraFsl:HibernateUtil:1.0" level="project" />
   </component>
 </module>
