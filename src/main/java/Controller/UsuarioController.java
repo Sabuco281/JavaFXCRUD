@@ -85,12 +85,12 @@ public class UsuarioController implements Initializable {
 
 
     private void limpiarCampos() {
-        // Limpiar los campos después de realizar la operación
+
         nombreField.clear();
         apellidoField.clear();
         dniField.clear();
 
-        // Limpiar los mensajes de error
+
         nombreError.setText("");
         apellidoError.setText("");
         dniError.setText("");
