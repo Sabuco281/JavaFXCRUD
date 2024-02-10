@@ -2,14 +2,21 @@ package Controller;
 
 import DAO.EmpleadoDAOImpl;
 import Entity.Empleado;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-
+import com.opencsv.CSVWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class UsuarioController implements Initializable {
@@ -24,7 +31,16 @@ public class UsuarioController implements Initializable {
     private Button guardarButton;
     @FXML
     private Text nombreError;
-
+    @FXML
+    private TableColumn<Empleado, Integer> idColum;
+    @FXML
+    private TableColumn<Empleado, String> nomColum;
+    @FXML
+    private TableColumn<Empleado, String> apeColum;
+    @FXML
+    private TableColumn<Empleado, String> dniColum;
+    @FXML
+    private TableView<Empleado> table;
     @FXML
     private Text apellidoError;
 
@@ -45,20 +61,20 @@ public class UsuarioController implements Initializable {
         if (nombreField == null || nombreField.getText().isEmpty()) {
             nombreError.setText("Inserte un nombre");
             nombreError.setVisible(true);
-        }else{
+        } else {
             nombreError.setText("");
 
         }
         if (apellidoField == null || apellidoField.getText().isEmpty()) {
             apellidoError.setText("Inserte un apellido");
             apellidoError.setVisible(true);
-        }else{
+        } else {
             apellidoError.setText("");
 
         }
         if (dni(dniField)) {
             dniError.setText("");
-        }else {
+        } else {
 
             dniError.setText("Revise a la hora de poner su dni");
             dniError.setVisible(true);
@@ -73,7 +89,7 @@ public class UsuarioController implements Initializable {
 
 
             Empleado nuevoEmpleado = new Empleado(nombre, apellido, dni);
-            if (empleadoDao.guardar(nuevoEmpleado)){
+            if (empleadoDao.guardar(nuevoEmpleado)) {
                 guardarButton.setDisable(false);
             }
 
@@ -81,8 +97,46 @@ public class UsuarioController implements Initializable {
             limpiarCampos();
         }
     }
+    @FXML
+    public void guardarCSV(ActionEvent actionEvent) {
 
+        exportarTrabajadoresCSV();
+    }
+    public void showTrabajadores() {
+        ObservableList<Empleado> list = empleadoDao.TodosTrabajadores();
+        table.setItems(list);
+        idColum.setCellValueFactory(new PropertyValueFactory<Empleado, Integer>("id"));
+        nomColum.setCellValueFactory(new PropertyValueFactory<Empleado, String>("nombre"));
+        apeColum.setCellValueFactory(new PropertyValueFactory<Empleado, String>("apellido"));
+        dniColum.setCellValueFactory(new PropertyValueFactory<Empleado, String>("dni"));
 
+    }
+
+    public void exportarTrabajadoresCSV() {
+        List<Empleado> empleados = empleadoDao.CSVTodosTrabajadores();
+
+        escribirCSV(empleados, "trabajadores.csv");
+    }
+
+    private void escribirCSV(List<Empleado> empleados, String nombreArchivo) {
+        try (FileWriter writer = new FileWriter(nombreArchivo)) {
+            CSVWriter writer1  = new CSVWriter(writer, ';');
+            String[] header = { "ID", "NOMBRE", "APELLIDO", "DNI" };
+            writer1.writeNext(header);
+            for (Empleado empleado : empleados) {
+                String[] linea ={
+                        String.valueOf(empleado.getId()),
+                        empleado.getNombre(),
+                        empleado.getApellido(),
+                        empleado.getDni()
+                };
+                writer1.writeNext(linea);
+            }
+            System.out.println("Datos exportados correctamente a " + nombreArchivo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void limpiarCampos() {
 
@@ -95,11 +149,12 @@ public class UsuarioController implements Initializable {
         apellidoError.setText("");
         dniError.setText("");
     }
-    private boolean dni(TextField dniField){
-        String letraArray [] = {"T","R","W" ,"A","G","M" ,"Y","F","P","D","X","B","N","J","Z","S","Q" ,"V" ,"H" ,"L" ,"C" ,"K" ,"E" };
+
+    private boolean dni(TextField dniField) {
+        String letraArray[] = {"T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"};
         int mod = 23;
         int numTamanio = dniField.getLength();
-        if (numTamanio == 9){
+        if (numTamanio == 9) {
             String letra = dniField.getText().substring(0, dniField.getLength() - 1);
             try {
                 int numTamnio2 = Integer.parseInt(letra);
@@ -108,9 +163,9 @@ public class UsuarioController implements Initializable {
                 String obtenerLetra = letraArray[resto];
                 String letraReal = dniField.getText().substring(dniField.getLength() - 1);
 
-                return  obtenerLetra.equalsIgnoreCase(letraReal);
+                return obtenerLetra.equalsIgnoreCase(letraReal);
 
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 return false;
             }
         }
@@ -122,6 +177,7 @@ public class UsuarioController implements Initializable {
         nombreError.setVisible(false);
         apellidoError.setVisible(false);
         dniError.setVisible(false);
+        showTrabajadores();
     }
 
 }

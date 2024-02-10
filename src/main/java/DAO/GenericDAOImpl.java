@@ -1,7 +1,7 @@
 package DAO;
 
 import Entity.Empleado;
-import BBDD.HibernateUtil;
+import BBDD.HibenateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -15,10 +15,6 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
         this.entityClass = entityClass;
     }
 
-    @Override
-    public List<T> listar() {
-        return null;
-    }
 
     @Override
     public T porId(long id) {
@@ -26,8 +22,8 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
     }
 
     @Override
-    public boolean  guardar(T entity) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
+    public boolean guardar(T entity) {
+        try (Session session = HibenateUtil.getSessionFactory().openSession();) {
             Transaction tx = null;
             try {
                 tx = session.beginTransaction();

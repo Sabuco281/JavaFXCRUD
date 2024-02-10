@@ -1,7 +1,7 @@
 package Entity;
 
 import jakarta.persistence.*;
-
+import jakarta.persistence.Query;
 import java.util.Date;
 
 @Entity

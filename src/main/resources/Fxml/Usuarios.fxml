@@ -10,36 +10,36 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="852.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Controller.UsuarioController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="852.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.UsuarioController">
    <children>
       <VBox layoutX="24.0" layoutY="103.0" prefHeight="300.0" prefWidth="300.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="110.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre" />
-            <TextField fx:id="nombreField"/>
-             <Text fx:id="nombreError" styleClass="textoRojo"/>
+            <TextField fx:id="nombreField" />
+             <Text fx:id="nombreError" styleClass="textoRojo" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Apellido" />
-            <TextField fx:id="apellidoField"/>
-             <Text fx:id="apellidoError" styleClass="textoRojo"/>
+            <TextField fx:id="apellidoField" />
+             <Text fx:id="apellidoError" styleClass="textoRojo" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dni" />
-            <TextField fx:id="dniField"/>
-             <Text fx:id="dniError" styleClass="textoRojo"/>
+            <TextField fx:id="dniField" />
+             <Text fx:id="dniError" styleClass="textoRojo" />
          </children>
       </VBox>
-      <TableView layoutX="372.0" layoutY="99.0" prefHeight="200.0" prefWidth="472.0">
+      <TableView fx:id="table" layoutX="346.0" layoutY="99.0" prefHeight="223.0" prefWidth="449.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="idColum" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="nomColum" prefWidth="129.0" text="Nombre" />
+            <TableColumn fx:id="apeColum" prefWidth="124.0" text="Apellido" />
+            <TableColumn fx:id="dniColum" prefWidth="120.0" text="Dni" />
         </columns>
       </TableView>
       <Label layoutX="322.0" layoutY="48.0" text="GESTION DE USUARIO" />
       <ButtonBar layoutX="302.0" layoutY="401.0" prefHeight="40.0" prefWidth="357.0">
         <buttons>
-          <Button fx:id="guardarButton" text="Guardar" onAction="#guardarEmpleado"/>
+          <Button fx:id="guardarButton" onAction="#guardarEmpleado" styleClass="botonGuadar" text="Guardar" />
             <Button mnemonicParsing="false" text="Actualizar" />
             <Button mnemonicParsing="false" text="Borrar" />
-            <Button mnemonicParsing="false" text="Limpiar" />
+            <Button onAction="#guardarCSV" text="Limpiar" />
         </buttons>
       </ButtonBar>
    </children>
