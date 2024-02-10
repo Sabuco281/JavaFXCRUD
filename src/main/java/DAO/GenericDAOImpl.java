@@ -41,6 +41,11 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
 
     @Override
     public void eliminar(Long id) {
-
+        try (Session session = HibenateUtil.getSessionFactory().openSession();) {
+            session.beginTransaction();
+            session.remove(session.find(entityClass, id));
+            session.getTransaction().commit();
+        }
     }
+
 }

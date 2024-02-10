@@ -30,6 +30,20 @@ public class UsuarioController implements Initializable {
     @FXML
     private Button guardarButton;
     @FXML
+    private Button eliminarButton;
+    @FXML
+    private Text id;
+    @FXML
+    private Text nombre;
+    @FXML
+    private Text apellido;
+    @FXML
+    private Text dni;
+    @FXML
+    private TextField idField;
+    @FXML
+    private Button eliminar;
+    @FXML
     private Text nombreError;
     @FXML
     private TableColumn<Empleado, Integer> idColum;
@@ -46,6 +60,8 @@ public class UsuarioController implements Initializable {
 
     @FXML
     private Text dniError;
+    @FXML
+    private Text idError;
 
     public UsuarioController() {
     }
@@ -53,7 +69,38 @@ public class UsuarioController implements Initializable {
         this.empleadoDao = empleadoDao;
     }*/
 
+    @FXML
+    public void eliminarUsuario(ActionEvent actionEvent){
+        id.setVisible(true);
+        idField.setVisible(true);
+        eliminarButton.setVisible(true);
+        nombreField.setVisible(false);
+        apellidoField.setVisible(false);
+        dniField.setVisible(false);
+        nombre.setVisible(false);
+        apellido.setVisible(false);
+        dni.setVisible(false);
 
+    }
+    @FXML
+    public void eliminarUsuario2(ActionEvent actionEvent){
+
+        if (idField == null || idField.getText().isEmpty()){
+            idError.setText("Inserte un id correcto");
+        }else {
+            idError.setText("");
+        }
+        if (!idField.getText().isEmpty()){
+            int idNumber = Integer.parseInt(idField.getText());
+            empleadoDao.eliminar((long) idNumber);
+            showTrabajadores();
+
+            idField.setText("");
+            idError.setText("");
+        }
+
+
+    }
     @FXML
     public void guardarEmpleado(ActionEvent actionEvent) {
 
@@ -177,6 +224,9 @@ public class UsuarioController implements Initializable {
         nombreError.setVisible(false);
         apellidoError.setVisible(false);
         dniError.setVisible(false);
+        id.setVisible(false);
+        idField.setVisible(false);
+        eliminarButton.setVisible(false);
         showTrabajadores();
     }
 
