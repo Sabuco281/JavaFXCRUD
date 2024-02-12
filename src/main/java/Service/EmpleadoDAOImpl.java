@@ -1,6 +1,7 @@
-package DAO;
+package Service;
 
 import BBDD.HibenateUtil;
+import DAO.EmpleadoDAO;
 import Entity.Empleado;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,7 +10,7 @@ import org.hibernate.Session;
 
 import java.util.List;
 
-public class EmpleadoDAOImpl extends GenericDAOImpl<Empleado> implements EmpleadoDAO{
+public class EmpleadoDAOImpl extends GenericDAOImpl<Empleado> implements EmpleadoDAO {
 
     public EmpleadoDAOImpl(){
         super(Empleado.class);
@@ -34,6 +35,34 @@ public class EmpleadoDAOImpl extends GenericDAOImpl<Empleado> implements Emplead
             Query<Empleado> query = session.createQuery(consulta, Empleado.class);
             return query.getResultList();
         }
+    }
+
+    @Override
+    public void editarUsuario(Long idEmpleado, String nuevoNombre, String nuevoApellido, String nuevoDni) {
+        try (Session session = HibenateUtil.getSessionFactory().openSession()) {
+            try {
+                session.beginTransaction();
+
+
+                Empleado empleado = session.get(Empleado.class, idEmpleado);
+
+
+                empleado.setNombre(nuevoNombre);
+                empleado.setApellido(nuevoApellido);
+                empleado.setDni(nuevoDni);
+
+
+                session.update(empleado);
+
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                if (session.getTransaction() != null) {
+                    session.getTransaction().rollback();
+                }
+                e.printStackTrace();
+            }
+        }
+
     }
 
 

@@ -1,5 +1,6 @@
-package DAO;
+package Service;
 
+import DAO.GenericDAO;
 import Entity.Empleado;
 import BBDD.HibenateUtil;
 import org.hibernate.Session;

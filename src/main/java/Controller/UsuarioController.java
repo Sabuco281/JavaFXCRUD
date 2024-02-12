@@ -1,7 +1,8 @@
 package Controller;
 
-import DAO.EmpleadoDAOImpl;
 import Entity.Empleado;
+import Service.EmpleadoDAOImpl;
+import com.opencsv.CSVWriter;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import com.opencsv.CSVWriter;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -31,6 +32,8 @@ public class UsuarioController implements Initializable {
     private Button guardarButton;
     @FXML
     private Button eliminarButton;
+    @FXML
+    private Button editarButton;
     @FXML
     private Text id;
     @FXML
@@ -70,7 +73,7 @@ public class UsuarioController implements Initializable {
     }*/
 
     @FXML
-    public void eliminarUsuario(ActionEvent actionEvent){
+    public void eliminarUsuario(ActionEvent actionEvent) {
         id.setVisible(true);
         idField.setVisible(true);
         eliminarButton.setVisible(true);
@@ -82,15 +85,28 @@ public class UsuarioController implements Initializable {
         dni.setVisible(false);
 
     }
-    @FXML
-    public void eliminarUsuario2(ActionEvent actionEvent){
+    public void actualizarUsuario(ActionEvent actionEvent) {
+        id.setVisible(true);
+        idField.setVisible(true);
+        nombreField.setVisible(true);
+        apellidoField.setVisible(true);
+        dniField.setVisible(true);
+        nombre.setVisible(true);
+        apellido.setVisible(true);
+        dni.setVisible(true);
+        eliminarButton.setDisable(true);
 
-        if (idField == null || idField.getText().isEmpty()){
+    }
+
+    @FXML
+    public void eliminarUsuario2(ActionEvent actionEvent) {
+
+        if (idField == null || idField.getText().isEmpty()) {
             idError.setText("Inserte un id correcto");
-        }else {
+        } else {
             idError.setText("");
         }
-        if (!idField.getText().isEmpty()){
+        if (!idField.getText().isEmpty()) {
             int idNumber = Integer.parseInt(idField.getText());
             empleadoDao.eliminar((long) idNumber);
             showTrabajadores();
@@ -101,6 +117,46 @@ public class UsuarioController implements Initializable {
 
 
     }
+
+    @FXML
+    public void editarUsuario(ActionEvent actionEvent) {
+
+        if (idField == null || idField.getText().isEmpty()) {
+            idError.setText("Inserte un id correcto");
+        } else {
+            idError.setText("");
+        }
+        if (nombreField == null || nombreField.getText().isEmpty()) {
+            nombreError.setText("Inserte un nombre");
+            nombreError.setVisible(true);
+        } else {
+            nombreError.setText("");
+
+        }
+        if (apellidoField == null || apellidoField.getText().isEmpty()) {
+            apellidoError.setText("Inserte un apellido");
+            apellidoError.setVisible(true);
+        } else {
+            apellidoError.setText("");
+
+        }
+        if (dni(dniField)) {
+            dniError.setText("");
+        } else {
+
+            dniError.setText("Revise a la hora de poner su dni");
+            dniError.setVisible(true);
+
+        }
+        int idNumber = Integer.parseInt(idField.getText());
+        String nombre = nombreField.getText();
+        String apellido = apellidoField.getText();
+        String dni = dniField.getText();
+
+        empleadoDao.editarUsuario((long)idNumber, nombre, apellido, dni);
+
+    }
+
     @FXML
     public void guardarEmpleado(ActionEvent actionEvent) {
 
@@ -144,11 +200,13 @@ public class UsuarioController implements Initializable {
             limpiarCampos();
         }
     }
+
     @FXML
     public void guardarCSV(ActionEvent actionEvent) {
 
         exportarTrabajadoresCSV();
     }
+
     public void showTrabajadores() {
         ObservableList<Empleado> list = empleadoDao.TodosTrabajadores();
         table.setItems(list);
@@ -167,11 +225,11 @@ public class UsuarioController implements Initializable {
 
     private void escribirCSV(List<Empleado> empleados, String nombreArchivo) {
         try (FileWriter writer = new FileWriter(nombreArchivo)) {
-            CSVWriter writer1  = new CSVWriter(writer, ';');
-            String[] header = { "ID", "NOMBRE", "APELLIDO", "DNI" };
+            CSVWriter writer1 = new CSVWriter(writer, ';');
+            String[] header = {"ID", "NOMBRE", "APELLIDO", "DNI"};
             writer1.writeNext(header);
             for (Empleado empleado : empleados) {
-                String[] linea ={
+                String[] linea = {
                         String.valueOf(empleado.getId()),
                         empleado.getNombre(),
                         empleado.getApellido(),
@@ -227,7 +285,8 @@ public class UsuarioController implements Initializable {
         id.setVisible(false);
         idField.setVisible(false);
         eliminarButton.setVisible(false);
-        showTrabajadores();
+        // showTrabajadores();
+
     }
 
 }

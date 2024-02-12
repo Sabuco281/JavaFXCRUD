@@ -18,10 +18,10 @@
             <Text fx:id="nombre" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre" />
             <TextField fx:id="nombreField" />
              <Text fx:id="nombreError" styleClass="textoRojo" />
-            <Text fx:id="apellido"  strokeType="OUTSIDE" strokeWidth="0.0" text="Apellido" />
+            <Text fx:id="apellido" strokeType="OUTSIDE" strokeWidth="0.0" text="Apellido" />
             <TextField fx:id="apellidoField" />
              <Text fx:id="apellidoError" styleClass="textoRojo" />
-            <Text fx:id="dni"  strokeType="OUTSIDE" strokeWidth="0.0" text="Dni" />
+            <Text fx:id="dni" strokeType="OUTSIDE" strokeWidth="0.0" text="Dni" />
             <TextField fx:id="dniField" />
              <Text fx:id="dniError" styleClass="textoRojo" />
          </children>
@@ -38,12 +38,12 @@
       <ButtonBar layoutX="360.0" layoutY="357.0" prefHeight="40.0" prefWidth="357.0">
         <buttons>
           <Button fx:id="guardarButton" onAction="#guardarEmpleado" styleClass="botonGuadar" text="Guardar" />
-            <Button mnemonicParsing="false" text="Actualizar" />
-            <Button onAction="#eliminarUsuario" mnemonicParsing="false" text="Borrar" />
+            <Button onAction="#actualizarUsuario" mnemonicParsing="false" text="Actualizar" />
+            <Button mnemonicParsing="false" onAction="#eliminarUsuario" text="Borrar" />
             <Button onAction="#guardarCSV" text="Limpiar" />
         </buttons>
       </ButtonBar>
-      <Button  fx:id="eliminarButton" onAction="#eliminarUsuario2" layoutX="34.0" layoutY="397.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="59.0" text="Eliminar">
+      <Button fx:id="eliminarButton" layoutX="34.0" layoutY="397.0" mnemonicParsing="false" onAction="#eliminarUsuario2" prefHeight="45.0" prefWidth="59.0" text="Eliminar">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -51,6 +51,7 @@
       <TextField fx:id="idField" layoutX="29.0" layoutY="332.0" />
       <Text fx:id="id" layoutX="34.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id" />
        <Text fx:id="idError" styleClass="textoRojo" />
+      <Button fx:id="editarButton" layoutX="104.0" layoutY="397.0" mnemonicParsing="false" onAction="#editarUsuario" prefHeight="45.0" prefWidth="66.0" text="Editar" />
 
    </children>
 </AnchorPane>

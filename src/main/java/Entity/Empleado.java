@@ -16,7 +16,16 @@ public class Empleado {
     private String nombre;
     private String apellido;
     private String dni;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "categoria_id")
+    private CategoriaUsuario categoria;
 
+    public CategoriaUsuario getCategoria(){
+        return categoria;
+    }
+    public void setCategoria(CategoriaUsuario categoria){
+        this.categoria = categoria;
+    }
 
     public Empleado(){
 

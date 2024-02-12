@@ -20,10 +20,15 @@ public class InterfazPrincipal  implements Initializable {
     private Label etiquetaOtraInterfaz;
     @FXML
     private Button gestionarUsarios;
+    @FXML
+    private Button gestionarCategoria;
 
     @FXML
     public void gestionarUsuarios(ActionEvent actionEvent) {
         cargarOtraInterfaz();
+    }
+    public void gestionarCategorias(ActionEvent actionEvent) {
+        cargarOtraInterfaz2();
     }
 
     private void cargarOtraInterfaz() {
@@ -46,6 +51,28 @@ public class InterfazPrincipal  implements Initializable {
             e.printStackTrace();
         }
     }
+    private void cargarOtraInterfaz2() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/CategoriaUsuario.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene((javafx.scene.Parent) root));
+
+            CategoriaUsuarioController categoriaUsuarioController = loader.getController();
+
+
+
+            stage.show();
+
+            Stage actualStage = (Stage) gestionarCategoria.getScene().getWindow();
+            actualStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     @Override

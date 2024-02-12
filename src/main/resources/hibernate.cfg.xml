@@ -10,6 +10,6 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <mapping class="Entity.Empleado"></mapping>
+        <mapping class="Entity.CategoriaUsuario"></mapping>
     </session-factory>
 </hibernate-configuration>
-A
