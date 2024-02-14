@@ -218,7 +218,7 @@ regresarMenu();
                 guardarButton.setDisable(false);
             }
 
-
+            showTrabajadores();
             limpiarCampos();
         }
     }

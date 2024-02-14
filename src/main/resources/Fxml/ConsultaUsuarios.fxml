@@ -32,5 +32,7 @@
          </children>
       </AnchorPane>
       <Button fx:id="consultaUsuario" onAction="#ConsultaUser" layoutX="229.0" layoutY="295.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="67.0" text="Consulta" />
+       <Button fx:id="regresar"  onAction="#Regresar" layoutX="598.0" layoutY="497.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="149.0" text="RegresarMenuPrincipal" />
+
    </children>
 </AnchorPane>

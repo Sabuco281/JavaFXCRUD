@@ -25,7 +25,9 @@
             <Text layoutX="3.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categoria_id" />
          </children>
       </AnchorPane>
-      <Button onAction="#guardarEspecialidad" layoutX="355.0" layoutY="267.0" mnemonicParsing="false" text="Guardar" />
-      <Button onAction="#guardarEspecialidadUser" layoutX="436.0" layoutY="267.0" mnemonicParsing="false" text="GuardarEspeci" />
+      <Button layoutX="355.0" layoutY="267.0" mnemonicParsing="false" onAction="#guardarEspecialidad" text="Guardar" />
+      <Button layoutX="436.0" layoutY="267.0" mnemonicParsing="false" onAction="#guardarEspecialidadUser" text="GuardarEspeci" />
+       <Button fx:id="regresar" layoutX="482.0" layoutY="403.0" mnemonicParsing="false" onAction="#Regresar" prefHeight="45.0" prefWidth="149.0" text="RegresarMenuPrincipal" />
+
    </children>
 </AnchorPane>

@@ -63,7 +63,7 @@ public class InterfazPrincipal  implements Initializable {
     }
     private void cargarOtraInterfaz2() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/CategoriaUsuarios.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/CategoriaUsuario.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();

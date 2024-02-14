@@ -19,16 +19,18 @@
       <AnchorPane layoutX="32.0" layoutY="31.0" prefHeight="269.0" prefWidth="222.0">
          <children>
             <TextField fx:id="rolField" layoutY="40.0" />
-            <TextField fx:id="sueldoField" layoutY="89.0" />
+            <TextField  fx:id="sueldoField" layoutY="89.0" />
             <Text layoutX="5.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rol" />
             <Text layoutX="3.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sueldo" />
-            <TextField fx:id="id_Usuario" layoutY="143.0" />
-            <TextField fx:id="id_Categoria" layoutY="193.0" />
+            <TextField  layoutY="143.0" />
+            <TextField  layoutY="193.0" />
             <Text layoutX="3.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id_Usuario" />
             <Text layoutX="3.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id_Categoria" />
          </children>
       </AnchorPane>
       <Button layoutX="375.0" layoutY="251.0" mnemonicParsing="false" onAction="#guardarCategoria" text="Guardar" />
       <Button layoutX="453.0" layoutY="251.0" mnemonicParsing="false" onAction="#guardarCategoria2" text="GuardarAso" />
+       <Button fx:id="regresar"  onAction="#Regresar" layoutX="598.0" layoutY="497.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="149.0" text="RegresarMenuPrincipal" />
+
    </children>
 </AnchorPane>
