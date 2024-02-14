@@ -38,7 +38,7 @@
       <ButtonBar layoutX="360.0" layoutY="357.0" prefHeight="40.0" prefWidth="357.0">
         <buttons>
           <Button fx:id="guardarButton" onAction="#guardarEmpleado" styleClass="botonGuadar" text="Guardar" />
-            <Button onAction="#actualizarUsuario" mnemonicParsing="false" text="Actualizar" />
+            <Button mnemonicParsing="false" onAction="#actualizarUsuario" text="Actualizar" />
             <Button mnemonicParsing="false" onAction="#eliminarUsuario" text="Borrar" />
             <Button onAction="#guardarCSV" text="Limpiar" />
         </buttons>
@@ -52,6 +52,7 @@
       <Text fx:id="id" layoutX="34.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id" />
        <Text fx:id="idError" styleClass="textoRojo" />
       <Button fx:id="editarButton" layoutX="104.0" layoutY="397.0" mnemonicParsing="false" onAction="#editarUsuario" prefHeight="45.0" prefWidth="66.0" text="Editar" />
+      <Button fx:id="regresar"  onAction="#Regresar" layoutX="598.0" layoutY="497.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="149.0" text="RegresarMenuPrincipal" />
 
    </children>
 </AnchorPane>

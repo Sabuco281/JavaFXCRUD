@@ -11,5 +11,6 @@
 
         <mapping class="Entity.Empleado"></mapping>
         <mapping class="Entity.CategoriaUsuario"></mapping>
+        <mapping class="Entity.Especialidad"></mapping>
     </session-factory>
 </hibernate-configuration>

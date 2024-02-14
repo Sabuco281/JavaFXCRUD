@@ -22,6 +22,11 @@ public class InterfazPrincipal  implements Initializable {
     private Button gestionarUsarios;
     @FXML
     private Button gestionarCategoria;
+    @FXML
+    private Button gestionarConsulta;
+    @FXML
+    private Button gestionarEspecialidad;
+
 
     @FXML
     public void gestionarUsuarios(ActionEvent actionEvent) {
@@ -30,7 +35,12 @@ public class InterfazPrincipal  implements Initializable {
     public void gestionarCategorias(ActionEvent actionEvent) {
         cargarOtraInterfaz2();
     }
-
+    public void consultaUsuarios(ActionEvent actionEvent) {
+        cargarOtraInterfaz3();
+    }
+    public void gestionarEspecialidad(ActionEvent actionEvent) {
+        cargarOtraInterfaz4();
+    }
     private void cargarOtraInterfaz() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Usuarios.fxml"));
@@ -53,13 +63,35 @@ public class InterfazPrincipal  implements Initializable {
     }
     private void cargarOtraInterfaz2() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/CategoriaUsuario.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/CategoriaUsuarios.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
             stage.setScene(new Scene((javafx.scene.Parent) root));
 
             CategoriaUsuarioController categoriaUsuarioController = loader.getController();
+
+
+
+            stage.show();
+
+            Stage actualStage = (Stage) gestionarConsulta.getScene().getWindow();
+            actualStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void cargarOtraInterfaz3() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/ConsultaUsuarios.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene((javafx.scene.Parent) root));
+
+            ConsultaUsuarioController categoriaUsuarioController = loader.getController();
 
 
 
@@ -72,8 +104,26 @@ public class InterfazPrincipal  implements Initializable {
         }
     }
 
+    private void cargarOtraInterfaz4() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/CategoriaEspecialidad.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene((javafx.scene.Parent) root));
+
+            CategoriaEspecialidadController categoriaEspecialidadController = loader.getController();
 
 
+
+            stage.show();
+
+            Stage actualStage = (Stage) gestionarEspecialidad.getScene().getWindow();
+            actualStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

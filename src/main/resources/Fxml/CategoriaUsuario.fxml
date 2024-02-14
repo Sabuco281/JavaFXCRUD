@@ -23,7 +23,7 @@
             <Text layoutX="5.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rol" />
             <Text layoutX="3.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sueldo" />
             <TextField fx:id="id_Usuario" layoutY="143.0" />
-            <TextField fx:id="id_Categoria" layoutX="5.0" layoutY="191.0" />
+            <TextField fx:id="id_Categoria" layoutY="193.0" />
             <Text layoutX="3.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id_Usuario" />
             <Text layoutX="3.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id_Categoria" />
          </children>

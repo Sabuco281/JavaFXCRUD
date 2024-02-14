@@ -64,6 +64,16 @@ public class EmpleadoDAOImpl extends GenericDAOImpl<Empleado> implements Emplead
         }
 
     }
+    public ObservableList<Empleado> obtenerUsuariosPorRol(String rol) {
+        try (Session session = HibenateUtil.getSessionFactory().openSession()) {
+            String hql = "FROM Empleado e WHERE e.categoria.Rol = :rol";
+            Query<Empleado> query = session.createQuery(hql, Empleado.class);
+            query.setParameter("rol", rol);
 
+            List<Empleado> resultList = query.getResultList();
+            ObservableList<Empleado> observableList = FXCollections.observableArrayList(resultList);
+            return observableList;
+        }
+    }
 
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="507.0" prefWidth="709.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ConsultaUsuarioController">
+   <children>
+      <TableView fx:id="table" layoutX="229.0" layoutY="38.0" prefHeight="216.0" prefWidth="454.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Id" />
+          <TableColumn fx:id="nomColum" prefWidth="75.0" text="Nombre" />
+            <TableColumn fx:id="apeColum" prefWidth="75.0" text="Apellido" />
+            <TableColumn fx:id="dniColum" prefWidth="75.0" text="Dni" />
+            <TableColumn fx:id="rolColum" prefWidth="75.0" text="Rol" />
+            <TableColumn fx:id="sueldoColum" prefWidth="75.0" text="Sueldo" />
+        </columns>
+      </TableView>
+      <AnchorPane layoutX="41.0" layoutY="27.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <AnchorPane layoutX="-14.0" layoutY="14.0" prefHeight="264.0" prefWidth="200.0">
+               <children>
+                  <TextField layoutX="7.0" layoutY="24.0" />
+                  <TextField layoutX="7.0" layoutY="75.0" />
+                  <TextField fx:id="rolField" layoutX="7.0" layoutY="123.0" />
+                  <Text layoutX="14.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rol" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <Button fx:id="consultaUsuario" onAction="#ConsultaUser" layoutX="229.0" layoutY="295.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="67.0" text="Consulta" />
+   </children>
+</AnchorPane>

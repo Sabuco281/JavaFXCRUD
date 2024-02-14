@@ -20,6 +20,17 @@ public class Empleado {
     @JoinColumn(name = "categoria_id")
     private CategoriaUsuario categoria;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "especialidad_id")
+    private Especialidad especialidad;
+
+    public Especialidad getEspecialidad(){
+        return especialidad;
+    }
+    public void setEspecialidad(Especialidad especialidad){
+        this.especialidad = especialidad;
+    }
+
     public CategoriaUsuario getCategoria(){
         return categoria;
     }

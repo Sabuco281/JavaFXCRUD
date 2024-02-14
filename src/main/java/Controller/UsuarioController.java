@@ -6,13 +6,17 @@ import com.opencsv.CSVWriter;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -45,7 +49,7 @@ public class UsuarioController implements Initializable {
     @FXML
     private TextField idField;
     @FXML
-    private Button eliminar;
+    private Button regresar;
     @FXML
     private Text nombreError;
     @FXML
@@ -71,12 +75,14 @@ public class UsuarioController implements Initializable {
  /*   public UsuarioController(GenericDAOImpl empleadoDao) {
         this.empleadoDao = empleadoDao;
     }*/
-
+ @FXML
+ public void Regresar(ActionEvent actionEvent){
+regresarMenu();
+ }
     @FXML
     public void eliminarUsuario(ActionEvent actionEvent) {
         id.setVisible(true);
         idField.setVisible(true);
-        eliminarButton.setVisible(true);
         nombreField.setVisible(false);
         apellidoField.setVisible(false);
         dniField.setVisible(false);
@@ -84,7 +90,16 @@ public class UsuarioController implements Initializable {
         apellido.setVisible(false);
         dni.setVisible(false);
 
+
+        eliminarButton.setVisible(true);
+        editarButton.setVisible(true);
+        editarButton.setDisable(true);
+
+        if (eliminarButton.isDisable()){
+            eliminarButton.setDisable(false);
+        }
     }
+
     public void actualizarUsuario(ActionEvent actionEvent) {
         id.setVisible(true);
         idField.setVisible(true);
@@ -94,7 +109,14 @@ public class UsuarioController implements Initializable {
         nombre.setVisible(true);
         apellido.setVisible(true);
         dni.setVisible(true);
+
+        editarButton.setVisible(true);
+        eliminarButton.setVisible(true);
         eliminarButton.setDisable(true);
+
+        if (editarButton.isDisable()){
+            editarButton.setDisable(false);
+        }
 
     }
 
@@ -153,7 +175,7 @@ public class UsuarioController implements Initializable {
         String apellido = apellidoField.getText();
         String dni = dniField.getText();
 
-        empleadoDao.editarUsuario((long)idNumber, nombre, apellido, dni);
+        empleadoDao.editarUsuario((long) idNumber, nombre, apellido, dni);
 
     }
 
@@ -285,8 +307,29 @@ public class UsuarioController implements Initializable {
         id.setVisible(false);
         idField.setVisible(false);
         eliminarButton.setVisible(false);
+        editarButton.setVisible(false);
         // showTrabajadores();
 
+    }
+    private void regresarMenu() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/InterfazPrincipal.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene((javafx.scene.Parent) root));
+
+            InterfazPrincipal interfazPrincipal = loader.getController();
+
+
+
+            stage.show();
+
+            Stage actualStage = (Stage) regresar.getScene().getWindow();
+            actualStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
