@@ -2,10 +2,11 @@ package DAO;
 
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GenericDAO<T>  {
 
-    T porId(long id);
+    Optional<T> findById(Long id);
     boolean guardar(T t);
     void eliminar(Long id);
 

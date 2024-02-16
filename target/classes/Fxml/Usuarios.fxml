@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -17,13 +18,14 @@
          <children>
             <Text fx:id="nombre" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre" />
             <TextField fx:id="nombreField" />
-             <Text fx:id="nombreError" styleClass="textoRojo" />
+             <Text fx:id="nombreError" style="-fx-fill: red;" />
             <Text fx:id="apellido" strokeType="OUTSIDE" strokeWidth="0.0" text="Apellido" />
             <TextField fx:id="apellidoField" />
-             <Text fx:id="apellidoError" styleClass="textoRojo" />
+             <Text fx:id="apellidoError" style="-fx-fill: red;" />
             <Text fx:id="dni" strokeType="OUTSIDE" strokeWidth="0.0" text="Dni" />
             <TextField fx:id="dniField" />
-             <Text fx:id="dniError" styleClass="textoRojo" />
+             <Text fx:id="dniError" style="-fx-fill: red;" />
+          <Button fx:id="guardarButton" onAction="#guardarEmpleado" prefHeight="25.0" prefWidth="137.0" styleClass="botonGuadar" text="Registrar Usuario" />
          </children>
       </VBox>
       <TableView fx:id="table" layoutX="346.0" layoutY="99.0" prefHeight="223.0" prefWidth="449.0">
@@ -35,24 +37,29 @@
         </columns>
       </TableView>
       <Label layoutX="322.0" layoutY="48.0" text="GESTION DE USUARIO" />
-      <ButtonBar layoutX="360.0" layoutY="357.0" prefHeight="40.0" prefWidth="357.0">
+      <ButtonBar layoutX="429.0" layoutY="348.0" prefHeight="40.0" prefWidth="284.0">
         <buttons>
-          <Button fx:id="guardarButton" onAction="#guardarEmpleado" styleClass="botonGuadar" text="Guardar" />
-            <Button mnemonicParsing="false" onAction="#actualizarUsuario" text="Actualizar" />
-            <Button mnemonicParsing="false" onAction="#eliminarUsuario" text="Borrar" />
-            <Button onAction="#guardarCSV" text="Limpiar" />
+            <Button mnemonicParsing="false" onAction="#actualizarUsuario" prefHeight="25.0" prefWidth="128.0" text="Modificar Usuario" />
+            <Button mnemonicParsing="false" onAction="#eliminarUsuario" text="Borrar Usuario" />
         </buttons>
       </ButtonBar>
-      <Button fx:id="eliminarButton" layoutX="34.0" layoutY="397.0" mnemonicParsing="false" onAction="#eliminarUsuario2" prefHeight="45.0" prefWidth="59.0" text="Eliminar">
+      <Button fx:id="eliminarButton" layoutX="34.0" layoutY="397.0" mnemonicParsing="false" onAction="#eliminarUsuario2" prefHeight="45.0" prefWidth="120.0" text="Eliminar Usuario">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
       </Button>
       <TextField fx:id="idField" layoutX="29.0" layoutY="332.0" />
       <Text fx:id="id" layoutX="34.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id" />
-       <Text fx:id="idError" styleClass="textoRojo" />
-      <Button fx:id="editarButton" layoutX="104.0" layoutY="397.0" mnemonicParsing="false" onAction="#editarUsuario" prefHeight="45.0" prefWidth="66.0" text="Editar" />
-      <Button fx:id="regresar"  onAction="#Regresar" layoutX="598.0" layoutY="497.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="149.0" text="RegresarMenuPrincipal" />
+       <Text fx:id="idError" layoutX="33.0" layoutY="381.0" style="-fx-fill: red;" />
+      <Button fx:id="editarButton" layoutX="173.0" layoutY="397.0" mnemonicParsing="false" onAction="#editarUsuario" prefHeight="45.0" prefWidth="120.0" text="Modificar Usuario" />
+      <Button fx:id="regresar" layoutX="598.0" layoutY="497.0" mnemonicParsing="false" onAction="#Regresar" prefHeight="45.0" prefWidth="149.0" text="Menú Principal" />
+      <MenuButton fx:id="menuButton" layoutX="182.0" layoutY="332.0" mnemonicParsing="false" text="Seleccione Id">
+        <items>
+
+        </items>
+      </MenuButton>
+      <Button fx:id="salir" layoutX="34.0" layoutY="452.0" mnemonicParsing="false" onAction="#Salir" prefHeight="45.0" prefWidth="120.0" text="Salir" />
+      <Button layoutX="593.0" layoutY="407.0" onAction="#guardarCSV" prefHeight="25.0" prefWidth="127.0" text="Descargar Tabla" />
 
    </children>
 </AnchorPane>

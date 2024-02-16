@@ -10,10 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -22,6 +19,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class UsuarioController implements Initializable {
@@ -64,6 +62,10 @@ public class UsuarioController implements Initializable {
     private TableView<Empleado> table;
     @FXML
     private Text apellidoError;
+    @FXML
+    private MenuButton menuButton;
+    @FXML
+    private Button salir;
 
     @FXML
     private Text dniError;
@@ -89,11 +91,22 @@ regresarMenu();
         nombre.setVisible(false);
         apellido.setVisible(false);
         dni.setVisible(false);
-
+        menuButton.setVisible(true);
 
         eliminarButton.setVisible(true);
         editarButton.setVisible(true);
         editarButton.setDisable(true);
+        salir.setVisible(true);
+
+        guardarButton.setVisible(false);
+
+        idError.setText("");
+        nombreError.setText("");
+        apellidoError.setText("");
+        dniError.setText("");
+        actualizarListaDesplegable();
+        idField.setVisible(true);
+        id.setVisible(true);
 
         if (eliminarButton.isDisable()){
             eliminarButton.setDisable(false);
@@ -109,17 +122,49 @@ regresarMenu();
         nombre.setVisible(true);
         apellido.setVisible(true);
         dni.setVisible(true);
+        menuButton.setVisible(true);
 
         editarButton.setVisible(true);
         eliminarButton.setVisible(true);
         eliminarButton.setDisable(true);
 
+        guardarButton.setVisible(false);
+
+
+        idError.setText("");
+        nombreError.setText("");
+        apellidoError.setText("");
+        dniError.setText("");
+
+        actualizarListaDesplegable();
+        salir.setVisible(true);
+        idField.setVisible(true);
+        id.setVisible(true);
         if (editarButton.isDisable()){
             editarButton.setDisable(false);
         }
 
-    }
 
+    }
+    public void Salir(ActionEvent actionEvent){
+
+        eliminarButton.setVisible(false);
+        editarButton.setVisible(false);
+        menuButton.setVisible(false);
+        salir.setVisible(false);
+        idField.setVisible(false);
+        id.setVisible(false);
+        idField.setText("");
+        nombre.setVisible(true);
+        nombreField.setVisible(true);
+        apellido.setVisible(true);
+
+        guardarButton.setVisible(true);
+        apellidoField.setVisible(true);
+        dni.setVisible(true);
+        dniField.setVisible(true);
+        limpiarCampos();
+    }
     @FXML
     public void eliminarUsuario2(ActionEvent actionEvent) {
 
@@ -131,6 +176,7 @@ regresarMenu();
         if (!idField.getText().isEmpty()) {
             int idNumber = Integer.parseInt(idField.getText());
             empleadoDao.eliminar((long) idNumber);
+            actualizarListaDesplegable();
             showTrabajadores();
 
             idField.setText("");
@@ -142,7 +188,7 @@ regresarMenu();
 
     @FXML
     public void editarUsuario(ActionEvent actionEvent) {
-
+        int idNumber = 0;
         if (idField == null || idField.getText().isEmpty()) {
             idError.setText("Inserte un id correcto");
         } else {
@@ -170,13 +216,31 @@ regresarMenu();
             dniError.setVisible(true);
 
         }
-        int idNumber = Integer.parseInt(idField.getText());
-        String nombre = nombreField.getText();
-        String apellido = apellidoField.getText();
-        String dni = dniField.getText();
 
-        empleadoDao.editarUsuario((long) idNumber, nombre, apellido, dni);
 
+
+        try {
+            idNumber = Integer.parseInt(idField.getText());
+            idError.setText("");
+
+            Optional<Empleado> empleadoOpt = empleadoDao.findById((long) idNumber);
+
+            if (empleadoOpt.isPresent()) {
+                if (!nombreField.getText().isEmpty() && !apellidoField.getText().isEmpty() && dni(dniField)) {
+
+                    String nombre = nombreField.getText();
+                    String apellido = apellidoField.getText();
+                    String dni = dniField.getText();
+
+                    empleadoDao.editarUsuario((long) idNumber, nombre, apellido, dni);
+                    showTrabajadores();
+                }
+            } else {
+                idError.setText("No existe un usuario con esa ID");
+            }
+        } catch (NumberFormatException e) {
+            idError.setText("Ponga un dato numerico por favor");
+        }
     }
 
     @FXML
@@ -270,8 +334,9 @@ regresarMenu();
         nombreField.clear();
         apellidoField.clear();
         dniField.clear();
+        idField.clear();
 
-
+        idError.setText("");
         nombreError.setText("");
         apellidoError.setText("");
         dniError.setText("");
@@ -308,9 +373,50 @@ regresarMenu();
         idField.setVisible(false);
         eliminarButton.setVisible(false);
         editarButton.setVisible(false);
-        // showTrabajadores();
+        menuButton.setVisible(false);
+        salir.setVisible(false);
+        showTrabajadores();
+
+
+
+
+
+        }
+
+
+
+    private void MenuItemClick(long id) {
+
+        System.out.println("ID seleccionado: " + id);
+        Optional<Empleado> empleadoOpt = empleadoDao.findById(id);
+        Empleado empleado = empleadoOpt.get();
+
+
+            idField.setText(String.valueOf(empleado.getId()));
+            nombreField.setText(empleado.getNombre());
+            apellidoField.setText(empleado.getApellido());
+            dniField.setText(empleado.getDni());
 
     }
+    private void actualizarListaDesplegable() {
+        menuButton.getItems().clear();
+
+        List<Empleado> empleados = empleadoDao.TodosTrabajadores();
+
+        if (!empleados.isEmpty()) {
+            long primerId = empleados.get(0).getId(); // Obtén el primer ID
+
+            for (Empleado empleado : empleados) {
+                long id = empleado.getId();
+                MenuItem menuItem = new MenuItem(String.valueOf(id));
+                menuItem.setOnAction(event -> MenuItemClick(id));
+                menuButton.getItems().add(menuItem);
+            }
+
+            MenuItemClick(primerId);
+        }
+    }
+
     private void regresarMenu() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/InterfazPrincipal.fxml"));

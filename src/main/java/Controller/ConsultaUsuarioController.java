@@ -45,7 +45,13 @@ public class ConsultaUsuarioController implements Initializable {
 
     @FXML
     public void ConsultaUser(ActionEvent actionEvent) {
+
+        if (rolField.getText().isEmpty()){
+            System.out.println("esta vacio");
+        }
+
         String nombre = rolField.getText();
+
         showConsultas(nombre);
 
     }

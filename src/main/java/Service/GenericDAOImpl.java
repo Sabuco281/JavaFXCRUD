@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
+import java.util.Optional;
 
 public class GenericDAOImpl<T> implements GenericDAO<T> {
     private final Class<T> entityClass;
@@ -18,8 +19,10 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
 
 
     @Override
-    public T porId(long id) {
-        return null;
+    public Optional<T> findById(Long id) {
+        try (Session session = HibenateUtil.getSessionFactory().openSession();) {
+            return Optional.ofNullable(session.find(entityClass, id));
+        }
     }
 
     @Override

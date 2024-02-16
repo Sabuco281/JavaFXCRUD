@@ -95,6 +95,7 @@ public class CategoriaEspecialidadController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        showCategorias();
 
     }
 }
