@@ -208,9 +208,7 @@ public class CategoriaUsuarioController implements Initializable {
                     if (categoriaOpt.isPresent()) {
                         if (!rolField.getText().isEmpty()) {
                             String rol = rolField.getText();
-                            System.out.println(rol);
-                            System.out.println(sueldoInt);
-                            System.out.println(idNumber);
+
 
                             categoriaDao.editarCategoria((long) idNumber, rol, String.valueOf(sueldoInt));
                             showCategorias();

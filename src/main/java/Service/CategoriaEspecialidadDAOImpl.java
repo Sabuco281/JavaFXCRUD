@@ -48,6 +48,39 @@ public class CategoriaEspecialidadDAOImpl extends GenericDAOImpl<Especialidad> i
 
         }
     }
+
+    @Override
+    public void editarEspecialidad(Long idEspecialidad, String nuevoPuesto) {
+        try (Session session = HibenateUtil.getSessionFactory().openSession()) {
+            try {
+                session.beginTransaction();
+
+                Especialidad especialidad = session.get(Especialidad.class, idEspecialidad);
+
+
+                    especialidad.setPuesto(nuevoPuesto);
+                    session.update(especialidad);
+                    session.getTransaction().commit();
+
+
+            } catch (Exception e) {
+                if (session.getTransaction() != null) {
+                    session.getTransaction().rollback();
+                }
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public List<Especialidad> CSVTodaEspecialidad() {
+        try (Session session = HibenateUtil.getSessionFactory().openSession()){
+            String consulta = "From Especialidad";
+            Query<Especialidad> query = session.createQuery(consulta, Especialidad.class);
+            return query.getResultList();
+        }
+    }
+
     public void asociarCategoriaUsuario(Long idEmpleado, Long idCategoriaUsuario) {
         try (Session session = HibenateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();

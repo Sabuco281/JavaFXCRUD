@@ -10,6 +10,8 @@ import java.util.List;
 public interface CategoriaEspecialidadDAO extends GenericDAO<Especialidad> {
     List<Especialidad> TodasEspecialidad();
     void asociarEspecialidadUsuario(Long idEmpleado, Long idCategoriaUsuario);
+    void editarEspecialidad(Long idEspecialidad, String puesto);
+    List<Especialidad> CSVTodaEspecialidad();
 
 
 }
