@@ -14,4 +14,5 @@ public interface CategoriaEspecialidadDAO extends GenericDAO<Especialidad> {
     List<Especialidad> CSVTodaEspecialidad();
 
 
+
 }

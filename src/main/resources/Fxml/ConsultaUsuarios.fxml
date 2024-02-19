@@ -11,28 +11,31 @@
    <children>
       <TableView fx:id="table" layoutX="241.0" layoutY="60.0" prefHeight="214.0" prefWidth="449.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Id" />
           <TableColumn fx:id="nomColum" prefWidth="75.0" text="Nombre" />
             <TableColumn fx:id="apeColum" prefWidth="75.0" text="Apellido" />
             <TableColumn fx:id="dniColum" prefWidth="75.0" text="Dni" />
             <TableColumn fx:id="rolColum" prefWidth="75.0" text="Rol" />
             <TableColumn fx:id="sueldoColum" prefWidth="75.0" text="Sueldo" />
+            <TableColumn fx:id="puestoColum" prefWidth="75.0" text="Puesto" />
         </columns>
       </TableView>
       <AnchorPane layoutX="41.0" layoutY="27.0" prefHeight="200.0" prefWidth="200.0">
          <children>
-            <AnchorPane layoutX="-14.0" layoutY="14.0" prefHeight="264.0" prefWidth="200.0">
+            <AnchorPane layoutX="-14.0" layoutY="14.0" prefHeight="340.0" prefWidth="186.0">
                <children>
-                  <TextField layoutX="7.0" layoutY="24.0" />
-                  <TextField layoutX="7.0" layoutY="75.0" />
-                  <TextField fx:id="rolField" layoutX="7.0" layoutY="123.0" />
-                  <Text layoutX="14.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rol" />
+                  <TextField fx:id="rolField" layoutX="7.0" layoutY="24.0" />
+                  <TextField fx:id="especialidadField" layoutX="7.0" layoutY="75.0" />
+                  <Text layoutX="-1.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rol" />
+                  <Text layoutX="-1.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Puesto" />
                </children>
             </AnchorPane>
+            <Text fx:id="aviso" style="-fx-fill: red;" layoutX="3.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" />
          </children>
       </AnchorPane>
       <Button fx:id="consultaUsuario" layoutX="229.0" layoutY="295.0" mnemonicParsing="false" onAction="#ConsultaUser" prefHeight="35.0" prefWidth="67.0" text="Consulta" />
        <Button fx:id="regresar" layoutX="542.0" layoutY="421.0" mnemonicParsing="false" onAction="#Regresar" prefHeight="45.0" prefWidth="149.0" text="Menú Principal" />
+      <Button layoutX="340.0" layoutY="300.0" mnemonicParsing="false" onAction="#guardarCSV" text="Descargar Tabla" />
+      <Text fx:id="Correcto" style="-fx-fill: green;"  layoutX="241.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" />
 
    </children>
 </AnchorPane>

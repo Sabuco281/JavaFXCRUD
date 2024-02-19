@@ -64,11 +64,50 @@ public class EmpleadoDAOImpl extends GenericDAOImpl<Empleado> implements Emplead
         }
 
     }
-    public ObservableList<Empleado> obtenerUsuariosPorRol(String rol) {
+    @Override
+    public ObservableList<Empleado> obtenerUsuariosPorRolYEspecialidad(String rol, String especialidad) {
         try (Session session = HibenateUtil.getSessionFactory().openSession()) {
-            String hql = "FROM Empleado e WHERE e.categoria.Rol = :rol";
+            String hql = "FROM Empleado e WHERE ";
+
+            if (rol != null && !rol.isEmpty()) {
+                hql += "e.categoria.rol = :rol ";
+            } else {
+                hql += "1 = 1 ";
+            }
+
+            hql += "AND ";
+
+            if (especialidad != null && !especialidad.isEmpty()) {
+                hql += "e.especialidad.puesto = :especialidad";
+            } else {
+                hql += "1 = 1";
+            }
+
             Query<Empleado> query = session.createQuery(hql, Empleado.class);
-            query.setParameter("rol", rol);
+
+            if (rol != null && !rol.isEmpty()) {
+                query.setParameter("rol", rol);
+            }
+
+            if (especialidad != null && !especialidad.isEmpty()) {
+                query.setParameter("especialidad", especialidad);
+            }
+
+            List<Empleado> resultList = query.getResultList();
+            ObservableList<Empleado> observableList = FXCollections.observableArrayList(resultList);
+            return observableList;
+        }
+    }
+
+
+
+    public ObservableList<Empleado> obtenerUsuariosConCategoriasYEspecialidades() {
+        try (Session session = HibenateUtil.getSessionFactory().openSession()) {
+            String hql = "SELECT e FROM Empleado e " +
+                    "LEFT JOIN FETCH e.categoria " +
+                    "LEFT JOIN FETCH e.especialidad";
+
+            Query<Empleado> query = session.createQuery(hql, Empleado.class);
 
             List<Empleado> resultList = query.getResultList();
             ObservableList<Empleado> observableList = FXCollections.observableArrayList(resultList);
@@ -77,3 +116,5 @@ public class EmpleadoDAOImpl extends GenericDAOImpl<Empleado> implements Emplead
     }
 
 }
+
+

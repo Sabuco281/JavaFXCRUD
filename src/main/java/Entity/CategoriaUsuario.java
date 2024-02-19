@@ -13,14 +13,14 @@ public class CategoriaUsuario {
     @Column(name = "id_categoria")
     private Long id;
 
-    private String Rol;
+    private String rol;
     private String Sueldo;
 
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.PERSIST)
     private List<Empleado> empleados;
 
     public CategoriaUsuario(String rol, String sueldo) {
-        this.Rol = rol;
+        this.rol = rol;
         this.Sueldo = sueldo;
     }
 
@@ -36,11 +36,11 @@ public class CategoriaUsuario {
     }
 
     public String getRol() {
-        return Rol;
+        return rol;
     }
 
     public void setRol(String rol) {
-        Rol = rol;
+        rol = rol;
     }
 
     public String getSueldo() {

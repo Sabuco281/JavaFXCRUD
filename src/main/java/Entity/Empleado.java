@@ -46,6 +46,21 @@ public class Empleado {
         this.apellido = apellido;
         this.dni = dni;
     }
+
+    public String getRol() {
+        CategoriaUsuario categoria = getCategoria();
+        return categoria != null ? categoria.getRol() : "";
+    }
+
+    public String getSueldo() {
+        CategoriaUsuario categoria = getCategoria();
+        return categoria != null ? categoria.getSueldo() : "";
+    }
+
+    public String getPuesto() {
+        Especialidad especialidad = getEspecialidad();
+        return especialidad != null ? especialidad.getPuesto() : "";
+    }
     public Long getId() {
         return id;
     }
