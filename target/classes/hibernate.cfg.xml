@@ -8,7 +8,7 @@
         <property name="connection.password"></property>
         <property name="show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
-
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <mapping class="Entity.Empleado"></mapping>
         <mapping class="Entity.CategoriaUsuario"></mapping>
         <mapping class="Entity.Especialidad"></mapping>

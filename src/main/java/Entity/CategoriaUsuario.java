@@ -16,7 +16,7 @@ public class CategoriaUsuario {
     private String Rol;
     private String Sueldo;
 
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.PERSIST)
     private List<Empleado> empleados;
 
     public CategoriaUsuario(String rol, String sueldo) {

@@ -16,7 +16,7 @@ public class Empleado {
     private String nombre;
     private String apellido;
     private String dni;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "categoria_id")
     private CategoriaUsuario categoria;
 

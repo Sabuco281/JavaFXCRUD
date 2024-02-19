@@ -23,8 +23,8 @@
             <TextField fx:id="sueldoField" layoutY="100.0" />
             <Text fx:id="rol" layoutX="5.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rol" />
             <Text fx:id="sueldo" layoutX="-4.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sueldo" />
-            <Text fx:id="rolError" layoutX="2.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: red;" />
             <Text fx:id="sueldoError" layoutX="2.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: red;" />
+            <Text fx:id="rolError" layoutX="2.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: red;" />
             <Button fx:id="Registrar" layoutX="4.0" layoutY="158.0" mnemonicParsing="false" onAction="#guardarCategoria" prefHeight="25.0" prefWidth="129.0" text="Registrar Categoria" />
          </children>
       </AnchorPane>
@@ -48,7 +48,7 @@
       </MenuButton>
       <Button fx:id="enlazarCatUser" layoutX="23.0" layoutY="363.0" mnemonicParsing="false" onAction="#guardarCategoria2" prefHeight="25.0" prefWidth="129.0" text="Enlazar Cat y User" />
       <Button fx:id="eliminarCat" layoutX="181.0" layoutY="363.0" mnemonicParsing="false" onAction="#eliminarCategoria2" text="Eliminar Categoria" />
-      <Button fx:id="ModificarCate" layoutX="185.0" layoutY="190.0" mnemonicParsing="false" text="Modificar Categoria" />
+      <Button fx:id="ModificarCate" onAction="#editarCategoria" layoutX="185.0" layoutY="190.0" mnemonicParsing="false" text="Modificar Categoria" />
       <Button layoutX="511.0" layoutY="288.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Descargar" />
       <Button fx:id="salir" layoutX="31.0" layoutY="410.0" mnemonicParsing="false" onAction="#Salir" prefHeight="25.0" prefWidth="113.0" text="Salir" />
       <Text fx:id="idError" layoutX="36.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: red;" />

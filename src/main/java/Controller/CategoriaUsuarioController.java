@@ -94,9 +94,9 @@ public class CategoriaUsuarioController implements Initializable {
             if (sueldoInt < 0) {
                 sueldoError.setText("Ponga un sueldo mayor o igual a cero");
             } else {
-                sueldoError.setText(""); // Limpiar el mensaje de error si el sueldo es válido
+                sueldoError.setText("");
 
-                if (!rolField.getText().isEmpty()) {
+                if (!rolField.getText().isEmpty() && sueldoInt > 0) {
                     String rol = rolField.getText();
                     String sueldo = sueldoField.getText();
                     CategoriaUsuario nuevaCategoria = new CategoriaUsuario(rol, sueldo);
@@ -123,24 +123,77 @@ public class CategoriaUsuarioController implements Initializable {
             Optional<Empleado> empleadoOpt = empleadoDao.findById((long) usuarioId);
 
             if (empleadoOpt.isPresent()) {
-                // El empleado existe, ahora validamos la ID de la categoría.
                 Optional<CategoriaUsuario> categoriaOpt = categoriaDao.findById((long) categoriaId);
 
                 if (categoriaOpt.isPresent()) {
-                    // La categoría existe, puedes continuar con la lógica para asociar la categoría al usuario.
                     categoriaDao.asociarCategoriaUsuario((long) usuarioId, (long) categoriaId);
                 } else {
-                    // La categoría no existe, muestra un mensaje de error.
                     idError.setText("No existe una categoría con esa ID");
                 }
             } else {
-                // El empleado no existe, muestra un mensaje de error.
                 idError2.setText("No existe un usuario con esa ID");
             }
         } catch (NumberFormatException e) {
-            // Manejar la excepción si las cadenas no se pueden convertir a enteros.
             idError.setText("ID de categoria no válida");
             idError2.setText("ID de usuario  no válida");
+        }
+    }
+
+    @FXML
+    public void editarCategoria(ActionEvent actionEvent) {
+        int idNumber = 0;
+
+        if (id_Categoria == null || id_Categoria.getText().isEmpty()) {
+            idError.setText("Inserte un ID correcto");
+        } else {
+            idError.setText("");
+        }
+
+        if (rolField == null || rolField.getText().isEmpty()) {
+            rolError.setText("Inserte un rol");
+        } else {
+            rolError.setText("");
+        }
+
+        try {
+            String sueldoText = sueldoField.getText();
+
+            // Validar si el sueldo es un número entero válido
+            if (!sueldoText.isEmpty()) {
+                int sueldoInt = Integer.parseInt(sueldoText);
+
+                // Validar si el sueldo es mayor o igual a cero
+                if (sueldoInt < 0) {
+                    sueldoError.setText("Ponga un sueldo mayor o igual a cero");
+                } else {
+                    sueldoError.setText("");
+
+                    // Proceder con el resto del código si el sueldo es válido
+                    idNumber = Integer.parseInt(id_Categoria.getText());
+                    idError.setText("");
+
+                    Optional<CategoriaUsuario> categoriaOpt = categoriaDao.findById((long) idNumber);
+
+                    if (categoriaOpt.isPresent()) {
+                        if (!rolField.getText().isEmpty()) {
+                            String rol = rolField.getText();
+                            System.out.println(rol);
+                            System.out.println(sueldoInt);
+                            System.out.println(idNumber);
+
+                            categoriaDao.editarCategoria((long) idNumber, rol, String.valueOf(sueldoInt));
+                            showCategorias();
+                        }
+                    } else {
+                        idError.setText("No existe una categoría con esa ID");
+                    }
+                }
+            } else {
+                sueldoError.setText("Inserte un sueldo");
+            }
+        } catch (NumberFormatException e) {
+            idError.setText("Ponga un dato numérico por favor");
+            sueldoError.setText("");
         }
     }
 
@@ -183,6 +236,7 @@ public class CategoriaUsuarioController implements Initializable {
             menuButton2.setVisible(true);
             salir.setVisible(true);
             eliminarCat.setVisible(true);
+            actualizarListaDesplegable2();
 
             enlazarCatUser.setVisible(true);
             enlazarCatUser.setDisable(true);
@@ -208,8 +262,8 @@ public class CategoriaUsuarioController implements Initializable {
             usuario.setVisible(false);
             id_Categoria.setVisible(true);
             categoria.setVisible(true);
-            menuButton2.setVisible(false);
-
+            menuButton2.setVisible(true);
+            actualizarListaDesplegable2();
 
             eliminarCat.setVisible(false);
             eliminarCat.setDisable(false);
@@ -257,6 +311,8 @@ public class CategoriaUsuarioController implements Initializable {
             usuario.setVisible(true);
             salir.setVisible(true);
             actualizarListaDesplegable2();
+            actualizarListaDesplegable();
+            enlazarCatUser.setVisible(true);
 
             eliminarCat.setVisible(true);
             eliminarCat.setDisable(true);
@@ -337,6 +393,8 @@ public class CategoriaUsuarioController implements Initializable {
             CategoriaUsuario categoria = categoriaOpt.get();
 
             id_Categoria.setText(String.valueOf(categoria.getId()));
+            sueldoField.setText(categoria.getSueldo());
+            rolField.setText(categoria.getRol());
 
         }
         private void actualizarListaDesplegable2 () {
@@ -362,8 +420,7 @@ public class CategoriaUsuarioController implements Initializable {
         @Override
         public void initialize (URL url, ResourceBundle resourceBundle){
             showCategorias();
-            actualizarListaDesplegable();
-            actualizarListaDesplegable2();
+
             menuButton.setVisible(false);
             menuButton2.setVisible(false);
             id_Categoria.setVisible(false);

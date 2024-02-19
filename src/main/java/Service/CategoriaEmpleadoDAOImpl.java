@@ -51,4 +51,30 @@ public class CategoriaEmpleadoDAOImpl extends GenericDAOImpl<CategoriaUsuario> i
             session.getTransaction().commit();
         }
     }
+
+    @Override
+    public void editarCategoria(Long idCategoria, String nuevoRol, String nuevoSueldo) {
+        try (Session session = HibenateUtil.getSessionFactory().openSession()) {
+            try {
+                session.beginTransaction();
+
+                CategoriaUsuario categoria = session.get(CategoriaUsuario.class, idCategoria);
+
+                        categoria.setRol(nuevoRol);
+
+
+                        categoria.setSueldo(nuevoSueldo);
+
+                    session.update(categoria);
+                    session.getTransaction().commit();
+
+            } catch (Exception e) {
+                if (session.getTransaction() != null) {
+                    session.getTransaction().rollback();
+                }
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

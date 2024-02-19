@@ -404,7 +404,7 @@ regresarMenu();
         List<Empleado> empleados = empleadoDao.TodosTrabajadores();
 
         if (!empleados.isEmpty()) {
-            long primerId = empleados.get(0).getId(); // Obtén el primer ID
+            long primerId = empleados.get(0).getId();
 
             for (Empleado empleado : empleados) {
                 long id = empleado.getId();
