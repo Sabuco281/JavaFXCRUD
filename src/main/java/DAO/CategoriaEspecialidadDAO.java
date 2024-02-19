@@ -11,4 +11,5 @@ public interface CategoriaEspecialidadDAO extends GenericDAO<Especialidad> {
     List<Especialidad> TodasEspecialidad();
     void asociarEspecialidadUsuario(Long idEmpleado, Long idCategoriaUsuario);
 
+
 }

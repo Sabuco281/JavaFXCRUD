@@ -4,6 +4,7 @@ import Entity.CategoriaUsuario;
 import Entity.Empleado;
 import Service.CategoriaEmpleadoDAOImpl;
 import Service.EmpleadoDAOImpl;
+import com.opencsv.CSVWriter;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -136,6 +138,35 @@ public class CategoriaUsuarioController implements Initializable {
         } catch (NumberFormatException e) {
             idError.setText("ID de categoria no válida");
             idError2.setText("ID de usuario  no válida");
+        }
+    }
+    @FXML
+    public void guardarCSV(ActionEvent actionEvent) {
+
+        exportarCategoriasCSV();
+    }
+
+    public void exportarCategoriasCSV() {
+        List<CategoriaUsuario> categorias = categoriaDao.CSVTodaCategoria();
+
+        escribirCSV(categorias, "categorias.csv");
+    }
+    private void escribirCSV(List<CategoriaUsuario> categorias, String nombreArchivo) {
+        try (FileWriter writer = new FileWriter(nombreArchivo)) {
+            CSVWriter writer1 = new CSVWriter(writer, ';');
+            String[] header = {"ID", "ROL", "SUELDO"};
+            writer1.writeNext(header);
+            for (CategoriaUsuario categoria : categorias) {
+                String[] linea = {
+                        String.valueOf(categoria.getId()),
+                        categoria.getRol(),
+                        categoria.getSueldo(),
+                };
+                writer1.writeNext(linea);
+            }
+            System.out.println("Datos exportados correctamente a " + nombreArchivo);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

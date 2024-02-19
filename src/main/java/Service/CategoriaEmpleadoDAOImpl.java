@@ -77,4 +77,13 @@ public class CategoriaEmpleadoDAOImpl extends GenericDAOImpl<CategoriaUsuario> i
         }
     }
 
+    @Override
+    public List<CategoriaUsuario> CSVTodaCategoria() {
+        try (Session session = HibenateUtil.getSessionFactory().openSession()){
+            String consulta = "From CategoriaUsuario";
+            Query<CategoriaUsuario> query = session.createQuery(consulta, CategoriaUsuario.class);
+            return query.getResultList();
+        }
+    }
+
 }
