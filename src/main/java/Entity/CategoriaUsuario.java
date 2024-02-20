@@ -40,7 +40,7 @@ public class CategoriaUsuario {
     }
 
     public void setRol(String rol) {
-        rol = rol;
+        this.rol = rol;
     }
 
     public String getSueldo() {

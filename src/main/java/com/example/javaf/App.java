@@ -23,19 +23,15 @@
         public void start(Stage stage) {
             try {
                 if (HibenateUtil.getSessionFactory() != null) {
-                    // Conexión exitosa, cargar la interfaz principal
                     Parent parent = FXMLLoader.load(getClass().getResource("/Fxml/InterfazPrincipal.fxml"));
                     Scene scene = new Scene(parent);
                     scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
-                    stage.setTitle("CRUD");
                     stage.setScene(scene);
                     stage.show();
                 } else {
-                    // Mostrar mensaje de error de conexión
                     mostrarMensajeError("No se pudo conectar a la base de datos");
                 }
             } catch (Exception e) {
-                // Mostrar mensaje de error general
                 mostrarMensajeError("Error al cargar la interfaz principal");
             }
         }

@@ -93,7 +93,8 @@ public class CategoriaEspecialidadController implements Initializable {
             puestoError.setText("");
         }
         if (!puestoField.getText().isEmpty()){
-            String puesto = puestoField.getText();
+            String puesto = puestoField.getText().toLowerCase();
+            Correcto.setText("La Especialidad se ha registrado correctamente.");
 
             Especialidad nuevaEspecialidad = new Especialidad(puesto);
             especialidadDao.guardar(nuevaEspecialidad);
@@ -219,10 +220,11 @@ public class CategoriaEspecialidadController implements Initializable {
     public void editarEspecialidad(ActionEvent actionEvent) {
         puestoError.setText("");
         idError.setText("");
-        puestoField.setText("");
+
         idUsuarioError.setText("");
         Correcto.setText("");
-
+        System.out.println(puestoField.getText());
+        System.out.println(especialidadField.getText());
         try {
             if (especialidadField == null || especialidadField.getText().isEmpty()) {
                 idError.setText("Inserte un ID correcto");
@@ -230,12 +232,13 @@ public class CategoriaEspecialidadController implements Initializable {
             } else {
                 idError.setText("");
             }
-            if (puestoField == null || puestoField.getText().isEmpty()) {
-                puestoError.setText("Inserte un puesto");
+            if (puestoField.getText() == null || puestoField.getText().isEmpty()) {
+                puestoError.setText("Inserte una especialidad");
                 return;
             } else {
                 puestoError.setText("");
             }
+
             Long idEspecialidad = Long.parseLong(especialidadField.getText());
 
             Optional<Especialidad> especialidadOpt = especialidadDao.findById(idEspecialidad);
@@ -243,7 +246,8 @@ public class CategoriaEspecialidadController implements Initializable {
             if (especialidadOpt.isPresent()) {
 
                 if (!puestoField.getText().isEmpty()) {
-                    String nuevoPuesto = puestoField.getText();
+                    String nuevoPuesto = puestoField.getText().toLowerCase();
+                    Correcto.setText("La Especialidad se ha actualizado correctamente.");
 
                     especialidadDao.editarEspecialidad(idEspecialidad, nuevoPuesto);
 
@@ -279,10 +283,11 @@ public class CategoriaEspecialidadController implements Initializable {
             try {
                 int idNumber = Integer.parseInt(inputText);
 
-                // Verifica si la entidad a eliminar existe antes de intentar la eliminación
-                Especialidad especialidadToDelete = especialidadDao.findById((long) idNumber).orElse(null);
+                Especialidad especialidadBorrar = especialidadDao.findById((long) idNumber).orElse(null);
 
-                if (especialidadToDelete != null) {
+                if (especialidadBorrar != null) {
+                    Correcto.setText("El Puesto se ha borrado correctamente.");
+
                     especialidadDao.eliminar((long) idNumber);
                     actualizarListaDesplegable2();
                     showCategorias();
@@ -368,6 +373,9 @@ public class CategoriaEspecialidadController implements Initializable {
                 idError.setText("No existe una especialidad con ese ID.");
                 return;
             }
+
+            Correcto.setText("La especialidad se ha asociado correctamente al usuario.");
+
 
             especialidadDao.asociarEspecialidadUsuario(usuarioId, categoriaId);
         } catch (NumberFormatException e) {

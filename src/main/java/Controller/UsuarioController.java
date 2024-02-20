@@ -180,11 +180,13 @@ regresarMenu();
         } else {
             try {
                 int idNumber = Integer.parseInt(idField.getText());
+                Correcto.setText("El empleado se elimino correctamente");
+
                 empleadoDao.eliminar((long) idNumber);
                 actualizarListaDesplegable();
                 showTrabajadores();
 
-                idField.setText("");
+
                 idError.setText("");
             } catch (NumberFormatException e) {
                 idError.setText("Inserte un id válido");
@@ -237,9 +239,10 @@ regresarMenu();
             if (empleadoOpt.isPresent()) {
                 if (!nombreField.getText().isEmpty() && !apellidoField.getText().isEmpty() && dni(dniField)) {
 
-                    String nombre = nombreField.getText();
-                    String apellido = apellidoField.getText();
-                    String dni = dniField.getText();
+                    String nombre = nombreField.getText().toLowerCase();
+                    String apellido = apellidoField.getText().toLowerCase();
+                    String dni = dniField.getText().toLowerCase();
+                    Correcto.setText("El empleado se actualizo correctamente");
 
                     empleadoDao.editarUsuario((long) idNumber, nombre, apellido, dni);
                     showTrabajadores();
@@ -281,10 +284,11 @@ regresarMenu();
         System.out.println(dni(dniField));
         if (!nombreField.getText().isEmpty() && !apellidoField.getText().isEmpty() && dni(dniField)) {
             guardarButton.setDisable(true);
-            String nombre = nombreField.getText();
-            String apellido = apellidoField.getText();
-            String dni = dniField.getText();
+            String nombre = nombreField.getText().toLowerCase();
+            String apellido = apellidoField.getText().toLowerCase();
+            String dni = dniField.getText().toLowerCase();
 
+            Correcto.setText("El empleado se registro correctamente");
 
             Empleado nuevoEmpleado = new Empleado(nombre, apellido, dni);
             if (empleadoDao.guardar(nuevoEmpleado)) {

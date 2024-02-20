@@ -9,34 +9,34 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="492.0" prefWidth="664.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CategoriaEspecialidadController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="751.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CategoriaEspecialidadController">
    <children>
-      <TableView fx:id="table" layoutX="445.0" layoutY="46.0" prefHeight="191.0" prefWidth="149.0">
+      <TableView fx:id="table" layoutX="348.0" layoutY="46.0" prefHeight="191.0" prefWidth="286.0">
         <columns>
           <TableColumn fx:id="idColum" prefWidth="74.0" text="ID" />
-          <TableColumn fx:id="puestoColum" prefWidth="76.0" text="Puesto" />
+          <TableColumn fx:id="puestoColum" prefWidth="211.0" text="Especialidad" />
         </columns>
       </TableView>
       <AnchorPane layoutX="47.0" layoutY="46.0" prefHeight="150.0" prefWidth="149.0">
          <children>
             <TextField fx:id="puestoField" layoutY="48.0" />
-            <Text fx:id="puesto" layoutX="3.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Puesto" />
+            <Text fx:id="puesto" layoutX="3.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Especialidad" />
             <Button fx:id="RegistrarEsp" layoutX="1.0" layoutY="104.0" mnemonicParsing="false" onAction="#guardarEspecialidad" text="Registrar Especialidad" />
             <Text fx:id="puestoError" layoutX="3.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: red;" />
          </children>
       </AnchorPane>
-      <Button fx:id="AsignarEsp" layoutX="352.0" layoutY="267.0" mnemonicParsing="false" onAction="#asginarEspe" text="Asignar Especialidad" />
+      <Button fx:id="AsignarEsp" layoutX="352.0" layoutY="267.0" mnemonicParsing="false" onAction="#asginarEspe" text="Establecer Usuario y Espe" />
        <Button fx:id="regresar" layoutX="445.0" layoutY="396.0" mnemonicParsing="false" onAction="#Regresar" prefHeight="45.0" prefWidth="149.0" text="Menú Principal" />
-      <Button fx:id="Eliminar" layoutX="349.0" layoutY="318.0" mnemonicParsing="false" onAction="#eliminarEsepecialdad" prefHeight="25.0" prefWidth="125.0" text="Eliminar" />
-      <Button layoutX="494.0" layoutY="267.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="109.0" text="Modificar" />
+      <Button fx:id="Eliminar" layoutX="349.0" layoutY="318.0" mnemonicParsing="false" onAction="#eliminarEsepecialdad" prefHeight="25.0" prefWidth="125.0" text="Borrar Especialidad" />
+      <Button layoutX="526.0" layoutY="267.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="137.0" text="Modificar Especialidad" />
       <TextField fx:id="usuarioField" layoutX="14.0" layoutY="343.0" />
       <TextField fx:id="especialidadField" layoutX="15.0" layoutY="281.0" />
       <Text fx:id="usuario_id" layoutX="14.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Usuario" />
       <Text fx:id="especialidad_id" layoutX="14.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Especialidad" />
-      <Button fx:id="ModificarEsp" layoutX="196.0" layoutY="151.0" mnemonicParsing="false" onAction="#editarEspecialidad" text="Modifcar Especialidad" />
-      <Button layoutX="494.0" layoutY="315.0" mnemonicParsing="false" onAction="#guardarCSV" prefHeight="25.0" prefWidth="109.0" text="Descargar" />
-      <Button fx:id="enlazarUserEsp" layoutX="7.0" layoutY="396.0" mnemonicParsing="false" onAction="#guardarEspecialidadUser" prefHeight="25.0" prefWidth="125.0" text="Enlazar Esp y User" />
-      <Button fx:id="EliminarEsp" layoutX="147.0" layoutY="396.0" mnemonicParsing="false" onAction="#eliminarEspecialidad2" prefHeight="25.0" prefWidth="132.0" text="Eliminar Especialidad" />
+      <Button fx:id="ModificarEsp" layoutX="196.0" layoutY="151.0" mnemonicParsing="false" onAction="#editarEspecialidad" text="Actualizar Especialidad" />
+      <Button layoutX="494.0" layoutY="315.0" mnemonicParsing="false" onAction="#guardarCSV" prefHeight="25.0" prefWidth="109.0" text="Descargar Tabla" />
+      <Button fx:id="enlazarUserEsp" layoutX="7.0" layoutY="396.0" mnemonicParsing="false" onAction="#guardarEspecialidadUser" prefHeight="25.0" prefWidth="137.0" text="Asignar Espe y User" />
+      <Button fx:id="EliminarEsp" layoutX="186.0" layoutY="396.0" mnemonicParsing="false" onAction="#eliminarEspecialidad2" prefHeight="25.0" prefWidth="132.0" text="Eliminar Especialidad" />
       <Button fx:id="Salir" layoutX="3.0" layoutY="435.0" mnemonicParsing="false" onAction="#salir" prefHeight="25.0" prefWidth="132.0" text="Salir" />
       <MenuButton fx:id="menuButton2" layoutX="180.0" layoutY="280.0" mnemonicParsing="false" text="Seleccione ID Espe">
         <items>
@@ -51,7 +51,7 @@
       <Text fx:id="idError" layoutX="15.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: red;" />
       <Accordion />
       <Text fx:id="idUsuarioError" layoutX="14.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: red;" />
-      <Text fx:id="Correcto" style="-fx-fill: green;" layoutX="445.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="Correcto" layoutX="373.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: green;" />
 
    </children>
 </AnchorPane>

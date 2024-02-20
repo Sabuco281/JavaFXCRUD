@@ -13,8 +13,7 @@ public class Especialidad {
     private Long id;
     private String puesto;
 
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.PERSIST)
-    private List<Empleado> empleados;
+    @OneToMany(mappedBy = "especialidad", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})    private List<Empleado> empleados;
 
     public Especialidad() {
     }

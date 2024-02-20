@@ -65,8 +65,10 @@ public class ConsultaUsuarioController implements Initializable {
             aviso.setText("");
         }
 
-        String nombre = rolField.getText();
-        String puesto = especialidadField.getText();
+        String nombre = rolField.getText().toLowerCase();
+        String puesto = especialidadField.getText().toLowerCase();
+        System.out.println(nombre);
+        System.out.println(puesto);
 
         showConsultas(nombre, puesto);
     }
@@ -85,10 +87,16 @@ public class ConsultaUsuarioController implements Initializable {
         dniColum.setCellValueFactory(new PropertyValueFactory<Empleado, String>("dni"));
 
 
+        rolColum.setCellValueFactory(cellData -> new SimpleStringProperty(
+                cellData.getValue().getCategoria() != null ? cellData.getValue().getCategoria().getRol() : ""
+        ));
+        sueldoColum.setCellValueFactory(cellData -> new SimpleStringProperty(
+                cellData.getValue().getCategoria() != null ? cellData.getValue().getCategoria().getSueldo() : ""
+        ));
+        puestoColum.setCellValueFactory(cellData -> new SimpleStringProperty(
+                cellData.getValue().getEspecialidad() != null ? cellData.getValue().getEspecialidad().getPuesto() : ""
+        ));
 
-        rolColum.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCategoria().getRol()));
-        sueldoColum.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCategoria().getSueldo()));
-        puestoColum.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEspecialidad().getPuesto()));
 
     }
 
@@ -103,7 +111,7 @@ public class ConsultaUsuarioController implements Initializable {
             Correcto.setText("La tabla está vacía. No se pueden exportar datos.");
         } else {
 
-            exportarEmpleadosCSV(listaEmpleados, "empleados.csv");
+            exportarEmpleadosCSV(listaEmpleados, "consultaTrabajdores.csv");
         }
     }
 
@@ -131,7 +139,10 @@ public class ConsultaUsuarioController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    @FXML
+    public void refrescar(ActionEvent actionEvent) {
+        showUsuarios();
+    }
     private void regresarMenu() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/InterfazPrincipal.fxml"));

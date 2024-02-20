@@ -103,7 +103,9 @@ public class CategoriaUsuarioController implements Initializable {
                 sueldoError.setText("");
 
                 if (!rolField.getText().isEmpty() && sueldoInt > 0) {
-                    String rol = rolField.getText();
+                    Correcto.setText("El rol se ha creado correctamente.");
+
+                    String rol = rolField.getText().toLowerCase();
                     String sueldo = sueldoField.getText();
                     CategoriaUsuario nuevaCategoria = new CategoriaUsuario(rol, sueldo);
                     categoriaDao.guardar(nuevaCategoria);
@@ -139,6 +141,8 @@ public class CategoriaUsuarioController implements Initializable {
                 Optional<CategoriaUsuario> categoriaOpt = categoriaDao.findById((long) categoriaId);
 
                 if (categoriaOpt.isPresent()) {
+                    Correcto.setText("El rol del empleado ha sido asignado correctamente.");
+
                     categoriaDao.asociarCategoriaUsuario((long) usuarioId, (long) categoriaId);
                 } else {
                     idError.setText("No existe una categoría con esa ID");
@@ -169,7 +173,7 @@ public class CategoriaUsuarioController implements Initializable {
             Correcto.setText("La tabla está vacía. No se pueden exportar datos.");
         } else {
 
-            escribirCSV(categorias, "categorias.csv");
+            escribirCSV(categorias, "roles.csv");
         }
     }
     private void escribirCSV(List<CategoriaUsuario> categorias, String nombreArchivo) {
@@ -231,15 +235,18 @@ public class CategoriaUsuarioController implements Initializable {
                     idError.setText("");
 
                     Optional<CategoriaUsuario> categoriaOpt = categoriaDao.findById((long) idNumber);
-
+                    String role = rolField.getText().toLowerCase();
                     if (categoriaOpt.isPresent()) {
+
                         if (!rolField.getText().isEmpty()) {
-                            String rol = rolField.getText();
 
 
-                            categoriaDao.editarCategoria((long) idNumber, rol, String.valueOf(sueldoInt));
+
+                            categoriaDao.editarCategoria((long) idNumber, role, String.valueOf(sueldoInt));
                             showCategorias();
                         }
+                        Correcto.setText("El rol se ha actualizado correctamente.");
+
                     } else {
                         idError.setText("No existe una categoría con esa ID");
                     }
@@ -277,9 +284,12 @@ public class CategoriaUsuarioController implements Initializable {
                 int idNumber = Integer.parseInt(idCategoriaText);
 
 
-                CategoriaUsuario categoriaToDelete = categoriaDao.findById((long) idNumber).orElse(null);
 
-                if (categoriaToDelete != null) {
+
+                CategoriaUsuario categoriaBorrar = categoriaDao.findById((long) idNumber).orElse(null);
+
+                if (categoriaBorrar != null) {
+                    Correcto.setText("El rol se ha eliminado correctamente.");
                     categoriaDao.eliminar((long) idNumber);
                     actualizarListaDesplegable2();
                     showCategorias();

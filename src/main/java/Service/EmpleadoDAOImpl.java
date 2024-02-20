@@ -67,30 +67,24 @@ public class EmpleadoDAOImpl extends GenericDAOImpl<Empleado> implements Emplead
     @Override
     public ObservableList<Empleado> obtenerUsuariosPorRolYEspecialidad(String rol, String especialidad) {
         try (Session session = HibenateUtil.getSessionFactory().openSession()) {
-            String hql = "FROM Empleado e WHERE ";
+            String hql = "FROM Empleado e WHERE 1 = 1 ";
 
             if (rol != null && !rol.isEmpty()) {
-                hql += "e.categoria.rol = :rol ";
-            } else {
-                hql += "1 = 1 ";
+                hql += "AND e.categoria.rol LIKE :rol ";
             }
 
-            hql += "AND ";
-
             if (especialidad != null && !especialidad.isEmpty()) {
-                hql += "e.especialidad.puesto = :especialidad";
-            } else {
-                hql += "1 = 1";
+                hql += "AND e.especialidad.puesto LIKE :especialidad ";
             }
 
             Query<Empleado> query = session.createQuery(hql, Empleado.class);
 
             if (rol != null && !rol.isEmpty()) {
-                query.setParameter("rol", rol);
+                query.setParameter("rol", "%" + rol + "%");
             }
 
             if (especialidad != null && !especialidad.isEmpty()) {
-                query.setParameter("especialidad", especialidad);
+                query.setParameter("especialidad", "%" + especialidad + "%");
             }
 
             List<Empleado> resultList = query.getResultList();
@@ -98,6 +92,8 @@ public class EmpleadoDAOImpl extends GenericDAOImpl<Empleado> implements Emplead
             return observableList;
         }
     }
+
+
 
 
 
