@@ -75,11 +75,18 @@ public class CategoriaEspecialidadController implements Initializable {
     @FXML
     private MenuButton menuButton2;
     @FXML
+    private Text Correcto;
+
+    @FXML
     public void Regresar(ActionEvent actionEvent){
         regresarMenu();
     }
     @FXML
     public void guardarEspecialidad(ActionEvent actionEvent) {
+        idError.setText("");
+        idUsuarioError.setText("");
+        Correcto.setText("");
+
         if (puestoField.getText().isEmpty() || puestoField.getText() == null) {
             puestoError.setText("Inserte un puesto");
         } else {
@@ -91,13 +98,19 @@ public class CategoriaEspecialidadController implements Initializable {
             Especialidad nuevaEspecialidad = new Especialidad(puesto);
             especialidadDao.guardar(nuevaEspecialidad);
             showCategorias();
+            puestoField.setText("");
         }
 
 
     }
     @FXML
     public void eliminarEsepecialdad(ActionEvent actionEvent) {
+        puestoField.setText("");
+        idError.setText("");
+        idUsuarioError.setText("");
+        Correcto.setText("");
 
+        puestoError.setText("");
         puestoField.setVisible(false);
         RegistrarEsp.setVisible(false);
         ModificarEsp.setVisible(false);
@@ -120,7 +133,12 @@ public class CategoriaEspecialidadController implements Initializable {
 
     @FXML
     public void asginarEspe(ActionEvent actionEvent) {
+        puestoField.setText("");
+        idError.setText("");
+        idUsuarioError.setText("");
+        Correcto.setText("");
 
+        puestoError.setText("");
         puestoField.setVisible(false);
         RegistrarEsp.setVisible(false);
         ModificarEsp.setVisible(false);
@@ -144,6 +162,10 @@ public class CategoriaEspecialidadController implements Initializable {
 
     @FXML
     public void modificar(ActionEvent actionEvent) {
+        puestoError.setText("");
+        idError.setText("");
+        idUsuarioError.setText("");
+        Correcto.setText("");
 
         puestoField.setVisible(true);
         RegistrarEsp.setVisible(true);
@@ -168,7 +190,12 @@ public class CategoriaEspecialidadController implements Initializable {
 
     @FXML
     public void salir(ActionEvent actionEvent) {
+        idError.setText("");
+        puestoField.setText("");
+        idUsuarioError.setText("");
+        Correcto.setText("");
 
+        puestoError.setText("");
         puestoField.setVisible(true);
         RegistrarEsp.setVisible(true);
         RegistrarEsp.setDisable(false);
@@ -190,6 +217,12 @@ public class CategoriaEspecialidadController implements Initializable {
     }
     @FXML
     public void editarEspecialidad(ActionEvent actionEvent) {
+        puestoError.setText("");
+        idError.setText("");
+        puestoField.setText("");
+        idUsuarioError.setText("");
+        Correcto.setText("");
+
         try {
             if (especialidadField == null || especialidadField.getText().isEmpty()) {
                 idError.setText("Inserte un ID correcto");
@@ -226,28 +259,54 @@ public class CategoriaEspecialidadController implements Initializable {
     }
 
     @FXML
-    public void eliminarEspecialidad2 (ActionEvent actionEvent){
+    public void eliminarEspecialidad2(ActionEvent actionEvent) {
+        puestoError.setText("");
+        idError.setText("");
+        puestoField.setText("");
+        idUsuarioError.setText("");
+        Correcto.setText("");
 
         if (especialidadField == null || especialidadField.getText().isEmpty()) {
             idError.setText("El id Categoria no existe");
+            return;
         } else {
             idError.setText("");
         }
-        if (!especialidadField.getText().isEmpty()) {
-            int idNumber = Integer.parseInt(especialidadField.getText());
-            especialidadDao.eliminar((long) idNumber);
-            actualizarListaDesplegable2();
-            showCategorias();
 
+        String inputText = especialidadField.getText().trim();
 
-            idError.setText("");
+        if (inputText.matches("\\d+")) {
+            try {
+                int idNumber = Integer.parseInt(inputText);
+
+                // Verifica si la entidad a eliminar existe antes de intentar la eliminación
+                Especialidad especialidadToDelete = especialidadDao.findById((long) idNumber).orElse(null);
+
+                if (especialidadToDelete != null) {
+                    especialidadDao.eliminar((long) idNumber);
+                    actualizarListaDesplegable2();
+                    showCategorias();
+                    idError.setText("");
+                } else {
+                    idError.setText("La especialidad con ese ID no existe.");
+                }
+            } catch (NumberFormatException e) {
+                idError.setText("Ingrese un valor válido para el ID");
+                e.printStackTrace();
+            }
+        } else {
+            idError.setText("Ingrese un valor numérico válido para el ID");
         }
-
-
     }
+
+
 
     @FXML
     public void guardarCSV(ActionEvent actionEvent) {
+        puestoError.setText("");
+        idError.setText("");
+        puestoField.setText("");
+        idUsuarioError.setText("");
 
         exportarCategoriasCSV();
     }
@@ -255,7 +314,14 @@ public class CategoriaEspecialidadController implements Initializable {
     public void exportarCategoriasCSV() {
         List<Especialidad> especialidades = especialidadDao.CSVTodaEspecialidad();
 
-        escribirCSV(especialidades, "especialidades.csv");
+        if (especialidades.isEmpty()) {
+            Correcto.setVisible(true);
+            Correcto.setStyle("-fx-fill: red;");
+            Correcto.setText("La tabla está vacía. No se pueden exportar datos.");
+        } else {
+
+            escribirCSV(especialidades, "especialidades.csv");        }
+
     }
     private void escribirCSV(List<Especialidad> especialidades, String nombreArchivo) {
         try (FileWriter writer = new FileWriter(nombreArchivo)) {
@@ -269,25 +335,27 @@ public class CategoriaEspecialidadController implements Initializable {
                 };
                 writer1.writeNext(linea);
             }
-            System.out.println("Datos exportados correctamente a " + nombreArchivo);
+            Correcto.setText("Datos exportados correctamente a " + nombreArchivo);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     @FXML
     public void guardarEspecialidadUser(ActionEvent actionEvent) {
+        puestoError.setText("");
+        idError.setText("");
+        puestoField.setText("");
+        idUsuarioError.setText("");
+        Correcto.setText("");
         try {
-            // Verificar que los campos de usuario y especialidad no estén vacíos
             if (usuarioField.getText().isEmpty() || especialidadField.getText().isEmpty()) {
                 idError.setText("Complete los campos de usuario y especialidad.");
                 return;
             }
 
-            // Convertir los valores de usuario y especialidad a Long
             Long usuarioId = Long.parseLong(usuarioField.getText());
             Long categoriaId = Long.parseLong(especialidadField.getText());
 
-            // Verificar que el usuario y la especialidad existan en la base de datos
             Optional<Empleado> usuarioOpt = empleadoDao.findById(usuarioId);
             Optional<Especialidad> especialidadOpt = especialidadDao.findById(categoriaId);
 
@@ -301,13 +369,12 @@ public class CategoriaEspecialidadController implements Initializable {
                 return;
             }
 
-            // Asociar la especialidad al usuario
             especialidadDao.asociarEspecialidadUsuario(usuarioId, categoriaId);
         } catch (NumberFormatException e) {
             idError.setText("Ingrese valores numéricos válidos para usuario y especialidad.");
         } catch (Exception e) {
             idError.setText("Ocurrió un error al asociar la especialidad al usuario.");
-            e.printStackTrace(); // Aquí puedes manejar o registrar la excepción según tus necesidades
+            e.printStackTrace();
         }
     }
 

@@ -71,7 +71,8 @@ public class UsuarioController implements Initializable {
     private Text dniError;
     @FXML
     private Text idError;
-
+    @FXML
+    private Text Correcto;
     public UsuarioController() {
     }
  /*   public UsuarioController(GenericDAOImpl empleadoDao) {
@@ -83,6 +84,8 @@ regresarMenu();
  }
     @FXML
     public void eliminarUsuario(ActionEvent actionEvent) {
+        Correcto.setText("");
+
         id.setVisible(true);
         idField.setVisible(true);
         nombreField.setVisible(false);
@@ -114,6 +117,8 @@ regresarMenu();
     }
 
     public void actualizarUsuario(ActionEvent actionEvent) {
+        Correcto.setText("");
+
         id.setVisible(true);
         idField.setVisible(true);
         nombreField.setVisible(true);
@@ -147,6 +152,7 @@ regresarMenu();
 
     }
     public void Salir(ActionEvent actionEvent){
+        Correcto.setText("");
 
         eliminarButton.setVisible(false);
         editarButton.setVisible(false);
@@ -167,27 +173,30 @@ regresarMenu();
     }
     @FXML
     public void eliminarUsuario2(ActionEvent actionEvent) {
+        Correcto.setText("");
 
         if (idField == null || idField.getText().isEmpty()) {
             idError.setText("Inserte un id correcto");
         } else {
-            idError.setText("");
+            try {
+                int idNumber = Integer.parseInt(idField.getText());
+                empleadoDao.eliminar((long) idNumber);
+                actualizarListaDesplegable();
+                showTrabajadores();
+
+                idField.setText("");
+                idError.setText("");
+            } catch (NumberFormatException e) {
+                idError.setText("Inserte un id válido");
+            }
         }
-        if (!idField.getText().isEmpty()) {
-            int idNumber = Integer.parseInt(idField.getText());
-            empleadoDao.eliminar((long) idNumber);
-            actualizarListaDesplegable();
-            showTrabajadores();
-
-            idField.setText("");
-            idError.setText("");
-        }
-
-
     }
+
 
     @FXML
     public void editarUsuario(ActionEvent actionEvent) {
+        Correcto.setText("");
+
         int idNumber = 0;
         if (idField == null || idField.getText().isEmpty()) {
             idError.setText("Inserte un id correcto");
@@ -246,7 +255,7 @@ regresarMenu();
     @FXML
     public void guardarEmpleado(ActionEvent actionEvent) {
 
-
+        Correcto.setText("");
         if (nombreField == null || nombreField.getText().isEmpty()) {
             nombreError.setText("Inserte un nombre");
             nombreError.setVisible(true);
@@ -291,6 +300,8 @@ regresarMenu();
     public void guardarCSV(ActionEvent actionEvent) {
 
         exportarTrabajadoresCSV();
+
+
     }
 
     public void showTrabajadores() {
@@ -306,7 +317,15 @@ regresarMenu();
     public void exportarTrabajadoresCSV() {
         List<Empleado> empleados = empleadoDao.CSVTodosTrabajadores();
 
-        escribirCSV(empleados, "trabajadores.csv");
+        if (empleados.isEmpty()) {
+            Correcto.setVisible(true);
+            Correcto.setStyle("-fx-fill: red;");
+            Correcto.setText("La tabla está vacía. No se pueden exportar datos.");
+        } else {
+
+            escribirCSV(empleados, "trabajadores.csv");
+        }
+
     }
 
     private void escribirCSV(List<Empleado> empleados, String nombreArchivo) {
@@ -323,7 +342,7 @@ regresarMenu();
                 };
                 writer1.writeNext(linea);
             }
-            System.out.println("Datos exportados correctamente a " + nombreArchivo);
+            Correcto.setText("Datos exportados correctamente a " + nombreArchivo);
         } catch (IOException e) {
             e.printStackTrace();
         }

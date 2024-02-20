@@ -48,11 +48,12 @@
       </MenuButton>
       <Button fx:id="enlazarCatUser" layoutX="23.0" layoutY="363.0" mnemonicParsing="false" onAction="#guardarCategoria2" prefHeight="25.0" prefWidth="129.0" text="Enlazar Cat y User" />
       <Button fx:id="eliminarCat" layoutX="181.0" layoutY="363.0" mnemonicParsing="false" onAction="#eliminarCategoria2" text="Eliminar Categoria" />
-      <Button fx:id="ModificarCate" onAction="#editarCategoria" layoutX="185.0" layoutY="190.0" mnemonicParsing="false" text="Modificar Categoria" />
-      <Button onAction="#guardarCSV" layoutX="511.0" layoutY="288.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Descargar" />
+      <Button fx:id="ModificarCate" layoutX="185.0" layoutY="190.0" mnemonicParsing="false" onAction="#editarCategoria" text="Modificar Categoria" />
+      <Button layoutX="511.0" layoutY="288.0" mnemonicParsing="false" onAction="#guardarCSV" prefHeight="25.0" prefWidth="95.0" text="Descargar" />
       <Button fx:id="salir" layoutX="31.0" layoutY="410.0" mnemonicParsing="false" onAction="#Salir" prefHeight="25.0" prefWidth="113.0" text="Salir" />
       <Text fx:id="idError" layoutX="36.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: red;" />
-      <Text fx:id="idError2"  style="-fx-fill: red;" layoutX="26.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="idError2" layoutX="26.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: red;" />
+      <Text fx:id="Correcto" style="-fx-fill: green;" layoutX="372.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" />
 
    </children>
 </AnchorPane>

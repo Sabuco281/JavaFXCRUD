@@ -2,6 +2,7 @@ package Controller;
 
 import Entity.CategoriaUsuario;
 import Entity.Empleado;
+import Entity.Especialidad;
 import Service.EmpleadoDAOImpl;
 import com.opencsv.CSVWriter;
 import javafx.beans.property.SimpleStringProperty;
@@ -110,11 +111,9 @@ public class ConsultaUsuarioController implements Initializable {
         try (FileWriter writer = new FileWriter(nombreArchivo)) {
             CSVWriter csvWriter = new CSVWriter(writer, ';');
 
-            // Escribir encabezados
             String[] header = {"Nombre", "Apellido", "DNI", "Rol", "Sueldo", "Puesto"};
             csvWriter.writeNext(header);
 
-            // Escribir datos de empleados
             for (Empleado empleado : empleados) {
                 String[] linea = {
                         empleado.getNombre(),
@@ -162,9 +161,20 @@ public class ConsultaUsuarioController implements Initializable {
         apeColum.setCellValueFactory(new PropertyValueFactory<Empleado, String>("apellido"));
         dniColum.setCellValueFactory(new PropertyValueFactory<Empleado, String>("dni"));
 
-        rolColum.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCategoria().getRol()));
-        sueldoColum.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCategoria().getSueldo()));
-        puestoColum.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEspecialidad().getPuesto()));
+        rolColum.setCellValueFactory(cellData -> {
+            CategoriaUsuario categoria = cellData.getValue().getCategoria();
+            return new SimpleStringProperty(categoria != null ? categoria.getRol() : "");
+        });
+
+        sueldoColum.setCellValueFactory(cellData -> {
+            CategoriaUsuario categoria = cellData.getValue().getCategoria();
+            return new SimpleStringProperty(categoria != null ? categoria.getSueldo() : "");
+        });
+
+        puestoColum.setCellValueFactory(cellData -> {
+            Especialidad especialidad = cellData.getValue().getEspecialidad();
+            return new SimpleStringProperty(especialidad != null ? especialidad.getPuesto() : "");
+        });
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

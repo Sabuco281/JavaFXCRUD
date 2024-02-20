@@ -34,7 +34,7 @@
       <Text fx:id="usuario_id" layoutX="14.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Usuario" />
       <Text fx:id="especialidad_id" layoutX="14.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Especialidad" />
       <Button fx:id="ModificarEsp" layoutX="196.0" layoutY="151.0" mnemonicParsing="false" onAction="#editarEspecialidad" text="Modifcar Especialidad" />
-      <Button onAction="#guardarCSV" layoutX="494.0" layoutY="315.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="109.0" text="Descargar" />
+      <Button layoutX="494.0" layoutY="315.0" mnemonicParsing="false" onAction="#guardarCSV" prefHeight="25.0" prefWidth="109.0" text="Descargar" />
       <Button fx:id="enlazarUserEsp" layoutX="7.0" layoutY="396.0" mnemonicParsing="false" onAction="#guardarEspecialidadUser" prefHeight="25.0" prefWidth="125.0" text="Enlazar Esp y User" />
       <Button fx:id="EliminarEsp" layoutX="147.0" layoutY="396.0" mnemonicParsing="false" onAction="#eliminarEspecialidad2" prefHeight="25.0" prefWidth="132.0" text="Eliminar Especialidad" />
       <Button fx:id="Salir" layoutX="3.0" layoutY="435.0" mnemonicParsing="false" onAction="#salir" prefHeight="25.0" prefWidth="132.0" text="Salir" />
@@ -48,9 +48,10 @@
 
          </items>
       </MenuButton>
-      <Text fx:id="idError" layoutX="15.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="idError" layoutX="15.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: red;" />
       <Accordion />
-      <Text fx:id="idUsuarioError" layoutX="14.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="idUsuarioError" layoutX="14.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: red;" />
+      <Text fx:id="Correcto" style="-fx-fill: green;" layoutX="445.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" />
 
    </children>
 </AnchorPane>

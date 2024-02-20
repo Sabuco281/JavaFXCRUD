@@ -60,6 +60,7 @@
       </MenuButton>
       <Button fx:id="salir" layoutX="34.0" layoutY="452.0" mnemonicParsing="false" onAction="#Salir" prefHeight="45.0" prefWidth="120.0" text="Salir" />
       <Button layoutX="593.0" layoutY="407.0" onAction="#guardarCSV" prefHeight="25.0" prefWidth="127.0" text="Descargar Tabla" />
+      <Text fx:id="Correcto" style="-fx-fill: green;" layoutX="346.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" />
 
    </children>
 </AnchorPane>

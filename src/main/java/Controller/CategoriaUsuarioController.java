@@ -80,14 +80,18 @@ public class CategoriaUsuarioController implements Initializable {
     private Button salir;
     @FXML
     private Button modificar;
+    @FXML
+    private Text Correcto;
 
     @FXML
     public void guardarCategoria(ActionEvent actionEvent) {
+        Correcto.setText("");
 
         if (rolField.getText().isEmpty() || rolField.getText() == null) {
             rolError.setText("Inserte un rol");
         } else {
             rolError.setText("");
+
         }
 
         try {
@@ -109,6 +113,8 @@ public class CategoriaUsuarioController implements Initializable {
         } catch (NumberFormatException e) {
             sueldoError.setText("Por favor, ponga un sueldo numérico");
         }
+         rolField.setText("");
+         sueldoField.setText("");
     }
 
     @FXML
@@ -118,6 +124,11 @@ public class CategoriaUsuarioController implements Initializable {
 
     @FXML
     public void guardarCategoria2(ActionEvent actionEvent) {
+        Correcto.setText("");
+        idError.setText("");
+        idError2.setText("");
+        rolError.setText("");
+        sueldoError.setText("");
         try {
             int usuarioId = Integer.parseInt(id_Usuario.getText());
             int categoriaId = Integer.parseInt(id_Categoria.getText());
@@ -136,20 +147,30 @@ public class CategoriaUsuarioController implements Initializable {
                 idError2.setText("No existe un usuario con esa ID");
             }
         } catch (NumberFormatException e) {
-            idError.setText("ID de categoria no válida");
-            idError2.setText("ID de usuario  no válida");
+            idError.setText("Compruebe que este correcto, la ID Usuario o ID Categoria");
+
         }
     }
     @FXML
     public void guardarCSV(ActionEvent actionEvent) {
-
+        idError.setText("");
+        idError2.setText("");
+        rolError.setText("");
+        sueldoError.setText("");
+        Correcto.setText("");
         exportarCategoriasCSV();
     }
 
     public void exportarCategoriasCSV() {
         List<CategoriaUsuario> categorias = categoriaDao.CSVTodaCategoria();
+        if (categorias.isEmpty()) {
+            Correcto.setVisible(true);
+            Correcto.setStyle("-fx-fill: red;");
+            Correcto.setText("La tabla está vacía. No se pueden exportar datos.");
+        } else {
 
-        escribirCSV(categorias, "categorias.csv");
+            escribirCSV(categorias, "categorias.csv");
+        }
     }
     private void escribirCSV(List<CategoriaUsuario> categorias, String nombreArchivo) {
         try (FileWriter writer = new FileWriter(nombreArchivo)) {
@@ -164,7 +185,7 @@ public class CategoriaUsuarioController implements Initializable {
                 };
                 writer1.writeNext(linea);
             }
-            System.out.println("Datos exportados correctamente a " + nombreArchivo);
+            Correcto.setText("Datos exportados correctamente a " + nombreArchivo);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -172,6 +193,12 @@ public class CategoriaUsuarioController implements Initializable {
 
     @FXML
     public void editarCategoria(ActionEvent actionEvent) {
+        idError.setText("");
+        idError2.setText("");
+        rolError.setText("");
+        sueldoError.setText("");
+        Correcto.setText("");
+
         int idNumber = 0;
 
         if (id_Categoria == null || id_Categoria.getText().isEmpty()) {
@@ -229,27 +256,54 @@ public class CategoriaUsuarioController implements Initializable {
 
 
     @FXML
-        public void eliminarCategoria2 (ActionEvent actionEvent){
+    public void eliminarCategoria2(ActionEvent actionEvent) {
+        Correcto.setText("");
+        idError.setText("");
+        idError2.setText("");
+        rolError.setText("");
+        sueldoError.setText("");
 
-            if (id_Categoria == null || id_Categoria.getText().isEmpty()) {
-                idError.setText("El id Categoria no existe");
-            } else {
-                idError.setText("");
-            }
-            if (!id_Categoria.getText().isEmpty()) {
-                int idNumber = Integer.parseInt(id_Categoria.getText());
-                categoriaDao.eliminar((long) idNumber);
-                actualizarListaDesplegable2();
-                showCategorias();
-
-                id_Categoria.setText("");
-                idError.setText("");
-            }
-
-
+        if (id_Categoria == null || id_Categoria.getText().isEmpty()) {
+            idError.setText("El id Categoria no existe");
+            return;
+        } else {
+            idError.setText("");
         }
 
-        public void Eliminar (ActionEvent actionEvent){
+        String idCategoriaText = id_Categoria.getText().trim();
+
+        if (idCategoriaText.matches("\\d+")) {
+            try {
+                int idNumber = Integer.parseInt(idCategoriaText);
+
+
+                CategoriaUsuario categoriaToDelete = categoriaDao.findById((long) idNumber).orElse(null);
+
+                if (categoriaToDelete != null) {
+                    categoriaDao.eliminar((long) idNumber);
+                    actualizarListaDesplegable2();
+                    showCategorias();
+                    idError.setText("");
+                } else {
+                    idError.setText("La categoría con ese ID no existe.");
+                }
+            } catch (NumberFormatException e) {
+                idError.setText("Ingrese un valor válido para el ID de la categoría.");
+                e.printStackTrace();
+            }
+        } else {
+            idError.setText("Ingrese un valor numérico válido para el ID de la categoría.");
+        }
+    }
+
+
+    public void Eliminar (ActionEvent actionEvent){
+            Correcto.setText("");
+
+            idError.setText("");
+            idError2.setText("");
+            rolError.setText("");
+            sueldoError.setText("");
             sueldo.setVisible(false);
             sueldoField.setVisible(false);
             rolField.setVisible(false);
@@ -275,6 +329,12 @@ public class CategoriaUsuarioController implements Initializable {
 
         }
         public void Modificar (ActionEvent actionEvent){
+            Correcto.setText("");
+
+            idError.setText("");
+            idError2.setText("");
+            rolError.setText("");
+            sueldoError.setText("");
             sueldo.setVisible(true);
             sueldoField.setVisible(true);
             rolField.setVisible(true);
@@ -302,7 +362,12 @@ public class CategoriaUsuarioController implements Initializable {
 
         }
         public void Salir (ActionEvent actionEvent){
+            Correcto.setText("");
 
+            idError.setText("");
+            idError2.setText("");
+            rolError.setText("");
+            sueldoError.setText("");
             menuButton.setVisible(false);
             menuButton2.setVisible(false);
             id_Categoria.setVisible(false);
@@ -325,6 +390,13 @@ public class CategoriaUsuarioController implements Initializable {
 
         }
         public void EnlazarCat (ActionEvent actionEvent){
+            Correcto.setText("");
+
+
+            idError.setText("");
+            idError2.setText("");
+            rolError.setText("");
+            sueldoError.setText("");
             sueldo.setVisible(false);
             sueldoField.setVisible(false);
             rolField.setVisible(false);

@@ -20,7 +20,7 @@ public class Empleado {
     @JoinColumn(name = "categoria_id")
     private CategoriaUsuario categoria;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "especialidad_id")
     private Especialidad especialidad;
 
