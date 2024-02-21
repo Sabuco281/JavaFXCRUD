@@ -12,8 +12,7 @@ public class HibenateUtil {
             sessionFactory = configuration.buildSessionFactory();
         }catch (Throwable ex) {
             System.err.println("Error al inicializar la SessionFactory: " + ex);
-            // Puedes también loguear la excepción o hacer otras acciones necesarias
-            // Devolvemos null si no se puede establecer la conexión
+
             sessionFactory = null;
         }
     }

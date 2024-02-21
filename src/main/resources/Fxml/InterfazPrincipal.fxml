@@ -8,14 +8,14 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.InterfazPrincipal">
    <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text fill="#10a1cd" layoutX="188.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Interfaz de gestión de usuarios" textAlignment="CENTER" wrappingWidth="209.13671875">
+      <Text fill="#10a1cd" layoutX="188.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gestión de Usuarios" textAlignment="CENTER" wrappingWidth="209.13671875">
          <font>
             <Font size="25.0" />
          </font>
       </Text>
       <Button fx:id="gestionarUsarios" layoutX="40.0" layoutY="164.0" mnemonicParsing="false" onAction="#gestionarUsuarios" prefHeight="49.0" prefWidth="110.0" text="Alta Usuario" />
       <Button fx:id="gestionarCategoria" layoutX="238.0" layoutY="164.0" mnemonicParsing="false" onAction="#gestionarCategorias" prefHeight="49.0" prefWidth="110.0" text="Alta Rol" />
-      <Button fx:id="gestionarConsulta" layoutX="219.0" layoutY="247.0" mnemonicParsing="false" onAction="#consultaUsuarios" prefHeight="49.0" prefWidth="153.0" text="Busqueda De Usuario" />
+      <Button fx:id="gestionarConsulta" layoutX="219.0" layoutY="247.0" mnemonicParsing="false" onAction="#consultaUsuarios" prefHeight="49.0" prefWidth="153.0" text="Información de Usuarios" />
       <Button fx:id="gestionarEspecialidad" layoutX="443.0" layoutY="164.0" mnemonicParsing="false" onAction="#gestionarEspecialidad" prefHeight="49.0" prefWidth="110.0" text="Alta Especialidad" />
 
    </children>

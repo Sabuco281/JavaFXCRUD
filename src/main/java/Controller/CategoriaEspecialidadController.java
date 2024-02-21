@@ -22,6 +22,10 @@ import javafx.stage.Stage;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -340,7 +344,9 @@ public class CategoriaEspecialidadController implements Initializable {
                 };
                 writer1.writeNext(linea);
             }
-            Correcto.setText("Datos exportados correctamente a " + nombreArchivo);
+            Path path = Paths.get(System.getProperty("user.home"), "Downloads", nombreArchivo);
+            Files.copy(Paths.get(nombreArchivo), path, StandardCopyOption.REPLACE_EXISTING);
+            Correcto.setText("Datos exportados correctamente a " + path.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

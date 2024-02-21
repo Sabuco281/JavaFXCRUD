@@ -18,6 +18,10 @@ import javafx.stage.Stage;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -73,15 +77,18 @@ public class UsuarioController implements Initializable {
     private Text idError;
     @FXML
     private Text Correcto;
+
     public UsuarioController() {
     }
- /*   public UsuarioController(GenericDAOImpl empleadoDao) {
-        this.empleadoDao = empleadoDao;
-    }*/
- @FXML
- public void Regresar(ActionEvent actionEvent){
-regresarMenu();
- }
+
+    /*   public UsuarioController(GenericDAOImpl empleadoDao) {
+           this.empleadoDao = empleadoDao;
+       }*/
+    @FXML
+    public void Regresar(ActionEvent actionEvent) {
+        regresarMenu();
+    }
+
     @FXML
     public void eliminarUsuario(ActionEvent actionEvent) {
         Correcto.setText("");
@@ -111,7 +118,7 @@ regresarMenu();
         idField.setVisible(true);
         id.setVisible(true);
 
-        if (eliminarButton.isDisable()){
+        if (eliminarButton.isDisable()) {
             eliminarButton.setDisable(false);
         }
     }
@@ -145,13 +152,14 @@ regresarMenu();
         salir.setVisible(true);
         idField.setVisible(true);
         id.setVisible(true);
-        if (editarButton.isDisable()){
+        if (editarButton.isDisable()) {
             editarButton.setDisable(false);
         }
 
 
     }
-    public void Salir(ActionEvent actionEvent){
+
+    public void Salir(ActionEvent actionEvent) {
         Correcto.setText("");
 
         eliminarButton.setVisible(false);
@@ -171,6 +179,7 @@ regresarMenu();
         dniField.setVisible(true);
         limpiarCampos();
     }
+
     @FXML
     public void eliminarUsuario2(ActionEvent actionEvent) {
         Correcto.setText("");
@@ -229,7 +238,6 @@ regresarMenu();
         }
 
 
-
         try {
             idNumber = Integer.parseInt(idField.getText());
             idError.setText("");
@@ -282,22 +290,45 @@ regresarMenu();
 
         }
         System.out.println(dni(dniField));
+
+
         if (!nombreField.getText().isEmpty() && !apellidoField.getText().isEmpty() && dni(dniField)) {
-            guardarButton.setDisable(true);
-            String nombre = nombreField.getText().toLowerCase();
-            String apellido = apellidoField.getText().toLowerCase();
-            String dni = dniField.getText().toLowerCase();
+            boolean dniDuplicado = false;
+            boolean nombreDuplicado = false;
+            String nombre = nombreField.getText().toLowerCase().trim();
+            String apellido = apellidoField.getText().toLowerCase().trim();
+            String dni = dniField.getText().toLowerCase().trim();
+            List<Empleado> empleados = empleadoDao.TodosTrabajadores();
 
-            Correcto.setText("El empleado se registro correctamente");
+            for (Empleado empleado : empleados) {
+                if (empleado.getDni().equals(dni)) {
 
-            Empleado nuevoEmpleado = new Empleado(nombre, apellido, dni);
-            if (empleadoDao.guardar(nuevoEmpleado)) {
-                guardarButton.setDisable(false);
+                    dniDuplicado = true;
+
+                }
+                if (empleado.getNombre().equals(nombre)){
+                    nombreDuplicado = true;
+                }
+                if (dniDuplicado || nombreDuplicado) {
+                    break;
+                }
+            }
+            if (dniDuplicado || nombreDuplicado) {
+                Correcto.setText("Revisé el dni o el nombre, porque existe, información ya existente en la base de datos");
+            } else {
+                Correcto.setText("El empleado se registro correctamente");
+
+                Empleado nuevoEmpleado = new Empleado(nombre, apellido, dni);
+                empleadoDao.guardar(nuevoEmpleado);
+
+
+                showTrabajadores();
+                limpiarCampos();
             }
 
-            showTrabajadores();
-            limpiarCampos();
+
         }
+
     }
 
     @FXML
@@ -346,7 +377,10 @@ regresarMenu();
                 };
                 writer1.writeNext(linea);
             }
-            Correcto.setText("Datos exportados correctamente a " + nombreArchivo);
+            Path path = Paths.get(System.getProperty("user.home"), "Downloads", nombreArchivo);
+            Files.copy(Paths.get(nombreArchivo), path, StandardCopyOption.REPLACE_EXISTING);
+            Correcto.setVisible(true);
+            Correcto.setText("Datos exportados correctamente a " + path.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -401,11 +435,7 @@ regresarMenu();
         showTrabajadores();
 
 
-
-
-
-        }
-
+    }
 
 
     private void MenuItemClick(long id) {
@@ -415,12 +445,13 @@ regresarMenu();
         Empleado empleado = empleadoOpt.get();
 
 
-            idField.setText(String.valueOf(empleado.getId()));
-            nombreField.setText(empleado.getNombre());
-            apellidoField.setText(empleado.getApellido());
-            dniField.setText(empleado.getDni());
+        idField.setText(String.valueOf(empleado.getId()));
+        nombreField.setText(empleado.getNombre());
+        apellidoField.setText(empleado.getApellido());
+        dniField.setText(empleado.getDni());
 
     }
+
     private void actualizarListaDesplegable() {
         menuButton.getItems().clear();
 
@@ -449,7 +480,6 @@ regresarMenu();
             stage.setScene(new Scene((javafx.scene.Parent) root));
 
             InterfazPrincipal interfazPrincipal = loader.getController();
-
 
 
             stage.show();
