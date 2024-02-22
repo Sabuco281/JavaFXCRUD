@@ -62,22 +62,26 @@ El archivo `hibernate.cfg.xml` proporciona la configuración para Hibernate, la 
 
 -En la interfaz, encontrarás cuatro botones, cada uno con una funcionalidad específica:
 
-    -Crear Usuarios:
-        Permite registrar nuevos usuarios en el sistema.
+-Alta Usuario:
+    Permite registrar nuevos usuarios en el sistema.
+    Ofrece funciones adicionales como borrar, modificar y descargar usuarios.
+    Proporciona la capacidad de importar información de empleados desde un documento CSV a la base de datos.
 
-    -Crear Roles:
+-Crear Roles:
         Facilita la creación y asignación de roles a los empleados.
+        Y también todo lo especificado en alta usuario.
 
-    -Asignar Especialización:
+-Asignar Especialización:
         Permite asignar especialidades a los empleados, lo cual es crucial para definir sus funciones y responsabilidades específicas.
-
-    -Buscar Usuarios:
+        Y también todo lo especificado en alta usuario.
+-Buscar Usuarios:
         Facilita la búsqueda de usuarios registrados en el sistema.
+        Y cuándo realiza esa busqueda podemos guardala, a un documento csv.
 
 Las funcionalidades de "Crear Roles" y "Asignar Especialización" están diseñadas para gestionar la organización interna de la empresa. En particular:
 
-    -Roles:
+-Roles:
         Después de registrar un empleado, puedes asignarle un rol específico que refleje sus responsabilidades y posición en la empresa.
 
-Especialidades:
+-Especialidades:
         Además, podrás asignar especialidades a los empleados para detallar aún más sus habilidades y competencias.
