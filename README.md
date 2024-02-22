@@ -25,21 +25,21 @@ Se recomienda tener Java en el entorno del usuario actualizado para evitar probl
 
 ### Comandos de Ejecución
 
-
-# Ejemplo de ejecución en un sistema Unix (Linux o macOS)
+```bash
+:: Ejemplo de ejecución en un sistema Unix (Linux o macOS)
 $ /ruta/a/tu/jdk/bin/java -jar /ruta/a/tu/proyecto/JavaF.jar
 
 cmd
 
 :: Ejemplo de ejecución en un sistema Windows
 C:\ruta\a\tu\jdk\bin\java.exe -jar C:\ruta\a\tu\proyecto\JavaF.jar
-\```
+```
 ### Configuración de Hibernate
 
 El archivo `hibernate.cfg.xml` proporciona la configuración para Hibernate, la herramienta de mapeo objeto-relacional.Asegúrate de que esté configurado correctamente, especialmente el puerto al que estás haciendo la conexión (en este caso, localhost:3306) y el nombre de la base de datos (en este caso, "gestionusuarios"). Si no realizas esta verificación, es posible que no puedas visualizar la base de datos y que se genere un error.
 <property name="connection.url">jdbc:mysql://localhost:3306/gestionusuarios</property>
 
-<!-- Inicio del bloque XML -->
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <hibernate-configuration>
     <session-factory>
@@ -57,7 +57,7 @@ El archivo `hibernate.cfg.xml` proporciona la configuración para Hibernate, la 
         <mapping class="Entity.Especialidad"></mapping>
     </session-factory>
 </hibernate-configuration>
-<!-- Fin del bloque XML -->
+```
 ### Explicación de la Intefaz
 
 -En la interfaz, encontrarás cuatro botones, cada uno con una funcionalidad específica:
