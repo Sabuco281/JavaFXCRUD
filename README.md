@@ -183,7 +183,8 @@ sino nos dara un aviso de error.
 ### Actualización de Java
 
 Se recomienda tener Java en el entorno del usuario actualizado, para evitar problemas al ejecutar el archivo JAR. Si experimentas problemas, a través del intérprete de comandos o CMD, apunta al directorio donde se encuentra tu archivo JAR y llámalo directamente desde el JDK de Java 11.
-###Intellij
+
+### Tener Intellij
 Otra cosa importante en este punto es tener el intellij instalado, y cuando lo inicies ir a la parte superior, seleccionar file para después darle a project structure, ahí nos aseguraremos de que instalamos el siguiente sdk (ya que sera la manera correcta de iniciar nuestro proyecto en intellij) tiene que seleccionar java 11 corretto-11 Amazon Coretto version 11.0.22. Al mismo tiempo esto nos serviría ya más adelante de ejecutar nuestro proyecto mediante el interprete de comandos, si tiene problemas de ejecución la aplicación.
 Y si da problemas de fallo de librerías, tendría que descargar las librerías de javafx-sdk-17.0.10, y añadirlas, volvemos a project structure, y seleccionar artifacts, si el jar esta, veras un sitio donde pone output layout abajo de esa palabra, le das al botón + y seleccionas file, ahí te vas al archivo javafx-sdk-17.0.10 a la carpeta bin y seleccionas todo lo que esta dentro de la carpeta para que ejecute correctamente su interfaz en JavaFX. al finalizar le das a apply y guardar, vas a la ventana de build y le das a rebuild project.
 ### Comandos de Ejecución
@@ -251,5 +252,6 @@ Las funcionalidades de "Crear Roles" y "Asignar Especialización" están diseña
         Además, podrás asignar especialidades a los empleados para detallar aún más sus habilidades y competencias.
 ### Nota importante
 La interfaz ha sido diseñada para ser intuitiva. Al hacer clic en ciertos botones, la interfaz cambia dinámicamente para mostrar tareas específicas. Por ejemplo, al hacer clic en "Borrar", se presentará de manera clara la lista de pasos a seguir para completar esa tarea específica. Si deseas registrar nuevamente, simplemente pulsa "Salir". Para volver a la interfaz principal, selecciona "Menú Principal". Este enfoque facilita la navegación y la ejecución de tareas de manera fluida.
-###Enlace del proyecto en Github.
+
+### Enlace del proyecto en Github.
 https://github.com/Sabuco281/JavaFXCRUD
