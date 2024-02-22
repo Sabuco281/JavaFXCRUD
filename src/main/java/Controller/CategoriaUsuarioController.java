@@ -15,10 +15,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -86,41 +89,63 @@ public class CategoriaUsuarioController implements Initializable {
     private Button modificar;
     @FXML
     private Text Correcto;
-
+    @FXML
+    private Button openFileButton;
     @FXML
     public void guardarCategoria(ActionEvent actionEvent) {
         Correcto.setText("");
 
-        if (rolField.getText().isEmpty() || rolField.getText() == null) {
+        String rol = rolField.getText().toLowerCase().trim();
+        String sueldo = sueldoField.getText();
+
+
+        if (rol.isEmpty()) {
             rolError.setText("Inserte un rol");
+            return;
         } else {
             rolError.setText("");
-
         }
 
+
         try {
-            int sueldoInt = Integer.parseInt(sueldoField.getText());
+            int sueldoInt = Integer.parseInt(sueldo);
 
             if (sueldoInt < 0) {
                 sueldoError.setText("Ponga un sueldo mayor o igual a cero");
+                return;
             } else {
                 sueldoError.setText("");
-
-                if (!rolField.getText().isEmpty() && sueldoInt > 0) {
-                    Correcto.setText("El rol se ha creado correctamente.");
-
-                    String rol = rolField.getText().toLowerCase();
-                    String sueldo = sueldoField.getText();
-                    CategoriaUsuario nuevaCategoria = new CategoriaUsuario(rol, sueldo);
-                    categoriaDao.guardar(nuevaCategoria);
-                    showCategorias();
-                }
             }
         } catch (NumberFormatException e) {
             sueldoError.setText("Por favor, ponga un sueldo numérico");
+            return;
         }
-         rolField.setText("");
-         sueldoField.setText("");
+
+
+        boolean rolDuplicado = false;
+        List<CategoriaUsuario> categorias = categoriaDao.TodasCategoria();
+        for (CategoriaUsuario categoria : categorias) {
+            if (categoria.getRol().equalsIgnoreCase(rol)) {
+                rolDuplicado = true;
+                break;
+            }
+        }
+
+        if (rolDuplicado) {
+            rolError.setText("Ya existe un rol con este nombre");
+        } else {
+            rolError.setText("");
+
+
+            Correcto.setText("El rol se ha creado correctamente.");
+            CategoriaUsuario nuevaCategoria = new CategoriaUsuario(rol, sueldo);
+            categoriaDao.guardar(nuevaCategoria);
+            showCategorias();
+        }
+
+
+        rolField.setText("");
+        sueldoField.setText("");
     }
 
     @FXML
@@ -176,8 +201,9 @@ public class CategoriaUsuarioController implements Initializable {
             Correcto.setStyle("-fx-fill: red;");
             Correcto.setText("La tabla está vacía. No se pueden exportar datos.");
         } else {
-
-            escribirCSV(categorias, "roles.csv");
+            String nombreArchivo = "roles.csv";
+            String rutaCompleta = Paths.get(System.getProperty("user.home"), "Downloads", nombreArchivo).toString();
+            escribirCSV(categorias, rutaCompleta);
         }
     }
     private void escribirCSV(List<CategoriaUsuario> categorias, String nombreArchivo) {
@@ -193,9 +219,9 @@ public class CategoriaUsuarioController implements Initializable {
                 };
                 writer1.writeNext(linea);
             }
-            Path path = Paths.get(System.getProperty("user.home"), "Downloads", nombreArchivo);
-            Files.copy(Paths.get(nombreArchivo), path, StandardCopyOption.REPLACE_EXISTING);
-            Correcto.setText("Datos exportados correctamente a " + path.toString());
+            Correcto.setStyle("-fx-fill: green;");
+
+            Correcto.setText("Datos exportados correctamente a " + nombreArchivo);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -263,7 +289,64 @@ public class CategoriaUsuarioController implements Initializable {
         }
     }
 
+    @FXML
+    private void handleOpenFileCategoria() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar Archivo CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"));
 
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            processCSVCategoriaFile(selectedFile);
+        }
+    }
+    private void processCSVCategoriaFile(File csvFile) {
+        try (BufferedReader lineReader = new BufferedReader(new FileReader(csvFile))) {
+            CSVParser records = CSVParser.parse(lineReader, CSVFormat.EXCEL.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim().withDelimiter(';'));
+            if (!records.getHeaderMap().containsKey("rol") || !records.getHeaderMap().containsKey("sueldo")) {
+                Correcto.setStyle("-fx-fill: red;");
+                Correcto.setText("Error: Los campos 'puesto' y 'sueldo' son necesarios en el archivo CSV.");
+                return;
+            }
+
+            List<CategoriaUsuario> categorias = categoriaDao.TodasCategoria();
+
+            for (CSVRecord record : records) {
+                String puesto = record.get("rol");
+                String sueldo = record.get("sueldo");
+
+                if (puesto == null || puesto.trim().isEmpty() || sueldo == null || sueldo.trim().isEmpty() || !sueldo.matches("\\d+")) {
+                    continue;
+                }
+
+                boolean puestoDuplicado = false;
+                for (CategoriaUsuario categoria : categorias) {
+                    if (categoria.getRol().equalsIgnoreCase(puesto)) {
+                        puestoDuplicado = true;
+                        break;
+                    }
+                }
+
+                if (!puestoDuplicado) {
+                    CategoriaUsuario nuevaCategoria = new CategoriaUsuario(puesto, sueldo);
+                    categoriaDao.guardar(nuevaCategoria);
+                    Correcto.setStyle("-fx-fill: green;");
+                    Correcto.setText("Documento csv guardado exitosamente.");
+                } else {
+                    Correcto.setStyle("-fx-fill: red;");
+                    Correcto.setText("Ese documento csv, ya está registrado en la base de datos");
+                }
+            }
+
+            actualizarListaDesplegable2();
+            showCategorias();
+            sueldoField.setText("");
+            rolField.setText("");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Correcto.setText("Error al procesar el archivo CSV.");
+        }
+    }
 
     @FXML
     public void eliminarCategoria2(ActionEvent actionEvent) {
@@ -511,27 +594,29 @@ public class CategoriaUsuarioController implements Initializable {
             rolField.setText(categoria.getRol());
 
         }
-        private void actualizarListaDesplegable2 () {
-            menuButton2.getItems().clear();
+    private void actualizarListaDesplegable2() {
+        menuButton2.getItems().clear();
 
-            List<CategoriaUsuario> categoriaUsuarios = categoriaDao.TodasCategoria();
+        List<CategoriaUsuario> categoriaUsuarios = categoriaDao.TodasCategoria();
 
-            if (!categoriaUsuarios.isEmpty()) {
-                long primerId = categoriaUsuarios.get(0).getId();
+        if (!categoriaUsuarios.isEmpty()) {
+            long primerId = categoriaUsuarios.get(0).getId();
 
-                for (CategoriaUsuario categoriaUsuario : categoriaUsuarios) {
-                    long id = categoriaUsuario.getId();
-                    MenuItem menuItem = new MenuItem(String.valueOf(id));
-                    menuItem.setOnAction(event -> MenuItemClick2(id));
-                    menuButton2.getItems().add(menuItem);
-                }
+            for (CategoriaUsuario categoriaUsuario : categoriaUsuarios) {
+                long id = categoriaUsuario.getId();
+                String nombreCategoria = categoriaUsuario.getRol();
+                String textoMenuItem = id + " - " + nombreCategoria;
 
-                MenuItemClick2(primerId);
+                MenuItem menuItem = new MenuItem(textoMenuItem);
+                menuItem.setOnAction(event -> MenuItemClick2(id));
+                menuButton2.getItems().add(menuItem);
             }
 
-
+            MenuItemClick2(primerId);
         }
-        @Override
+    }
+
+    @Override
         public void initialize (URL url, ResourceBundle resourceBundle){
             showCategorias();
 

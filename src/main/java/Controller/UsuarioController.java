@@ -1,7 +1,11 @@
 package Controller;
 
 import Entity.Empleado;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import Service.EmpleadoDAOImpl;
+import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,10 +17,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -70,7 +74,8 @@ public class UsuarioController implements Initializable {
     private MenuButton menuButton;
     @FXML
     private Button salir;
-
+    @FXML
+    private Button openFileButton;
     @FXML
     private Text dniError;
     @FXML
@@ -314,8 +319,10 @@ public class UsuarioController implements Initializable {
                 }
             }
             if (dniDuplicado || nombreDuplicado) {
+                Correcto.setStyle("-fx-fill: red;");
                 Correcto.setText("Revisé el dni o el nombre, porque existe, información ya existente en la base de datos");
             } else {
+                Correcto.setStyle("-fx-fill: green;");
                 Correcto.setText("El empleado se registro correctamente");
 
                 Empleado nuevoEmpleado = new Empleado(nombre, apellido, dni);
@@ -357,8 +364,10 @@ public class UsuarioController implements Initializable {
             Correcto.setStyle("-fx-fill: red;");
             Correcto.setText("La tabla está vacía. No se pueden exportar datos.");
         } else {
-
-            escribirCSV(empleados, "trabajadores.csv");
+            String nombreArchivo = "trabajadores.csv";
+            String rutaCompleta = Paths.get(System.getProperty("user.home"), "Downloads", nombreArchivo).toString();
+           // exportarEmpleadosCSV(listaEmpleados, rutaCompleta);
+            escribirCSV(empleados, rutaCompleta);
         }
 
     }
@@ -377,12 +386,87 @@ public class UsuarioController implements Initializable {
                 };
                 writer1.writeNext(linea);
             }
-            Path path = Paths.get(System.getProperty("user.home"), "Downloads", nombreArchivo);
-            Files.copy(Paths.get(nombreArchivo), path, StandardCopyOption.REPLACE_EXISTING);
-            Correcto.setVisible(true);
-            Correcto.setText("Datos exportados correctamente a " + path.toString());
+            Correcto.setStyle("-fx-fill: green;");
+            Correcto.setText("Datos exportados correctamente a " + nombreArchivo);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    private void handleOpenFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar Archivo CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"));
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            processCSVFile(selectedFile);
+        }
+    }
+
+
+    private void processCSVFile(File csvFile) {
+        try (BufferedReader lineReader = new BufferedReader(new FileReader(csvFile))) {
+            CSVParser records = CSVParser.parse(lineReader, CSVFormat.EXCEL.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim().withDelimiter(';'));
+            if (!records.getHeaderMap().containsKey("nombre") || !records.getHeaderMap().containsKey("apellido") || !records.getHeaderMap().containsKey("dni")) {
+                Correcto.setText("Error: Los campos 'nombre', 'apellido' y 'dni' son necesarios en el archivo CSV.");
+                return;
+            }
+
+            List<Empleado> empleados = empleadoDao.TodosTrabajadores();
+
+            for (CSVRecord record : records) {
+                String nombre = record.get("nombre");
+                String apellido = record.get("apellido");
+                String dni = record.get("dni");
+
+                if (nombre == null || nombre.trim().isEmpty() || apellido == null || apellido.trim().isEmpty() || dni == null || dni.trim().isEmpty() || !dni2(dni)) {
+                    continue;
+                }
+                boolean dniDuplicado = false;
+                boolean nombreDuplicado = false;
+
+                for (Empleado empleado : empleados) {
+                    if (empleado.getDni().equalsIgnoreCase(dni)) {
+                        dniDuplicado = true;
+                        break;
+                    }
+                    if (empleado.getNombre().equalsIgnoreCase(nombre)) {
+                        nombreDuplicado = true;
+                        break;
+                    }
+                }
+
+                if (!dniDuplicado && !nombreDuplicado) {
+                    Empleado nuevoEmpleado = new Empleado(nombre, apellido, dni);
+                    boolean exitoso = empleadoDao.guardar(nuevoEmpleado);
+
+                    if (exitoso) {
+                        Correcto.setStyle("-fx-fill: green;");
+                        Correcto.setText("Documento guardado exitosamente.");
+                    } else {
+                        Correcto.setStyle("-fx-fill: red;");
+                        Correcto.setText("Error al guardar el documento.");
+                    }
+                }else {
+                    Correcto.setStyle("-fx-fill: red;");
+                    Correcto.setText("Ese documento csv, ya esta registrado en la base de datos");
+                }
+            }
+
+            showTrabajadores();
+           // Correcto.setText("Importación exitosa.");
+            actualizarListaDesplegable();
+            nombreField.clear();
+            apellidoField.clear();
+            dniField.clear();
+            idField.clear();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Correcto.setText("Error al procesar el archivo CSV.");
         }
     }
 
@@ -420,7 +504,29 @@ public class UsuarioController implements Initializable {
         }
         return false;
     }
+    private boolean dni2(String dni) {
+        String letraArray[] = {"T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"};
+        int mod = 23;
+        int numTamanio = dni.length();
 
+        if (numTamanio == 9) {
+            String letra = dni.substring(0, dni.length() - 1);
+
+            try {
+                int numTamnio2 = Integer.parseInt(letra);
+                int resto = numTamnio2 % mod;
+
+                String obtenerLetra = letraArray[resto];
+                String letraReal = dni.substring(dni.length() - 1);
+
+                return obtenerLetra.equalsIgnoreCase(letraReal);
+
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+        return false;
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nombreError.setVisible(false);
@@ -462,7 +568,10 @@ public class UsuarioController implements Initializable {
 
             for (Empleado empleado : empleados) {
                 long id = empleado.getId();
-                MenuItem menuItem = new MenuItem(String.valueOf(id));
+                String dni = empleado.getDni();
+                String textoMenuItem = id + " - " + dni;
+
+                MenuItem menuItem = new MenuItem(textoMenuItem);
                 menuItem.setOnAction(event -> MenuItemClick(id));
                 menuButton.getItems().add(menuItem);
             }

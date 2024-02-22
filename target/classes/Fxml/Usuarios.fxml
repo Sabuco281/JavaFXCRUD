@@ -59,6 +59,7 @@
       <Button fx:id="salir" layoutX="34.0" layoutY="452.0" mnemonicParsing="false" onAction="#Salir" prefHeight="45.0" prefWidth="120.0" text="Salir" />
       <Button layoutX="593.0" layoutY="407.0" onAction="#guardarCSV" prefHeight="25.0" prefWidth="127.0" text="Descargar Tabla" />
       <Text fx:id="Correcto" layoutX="346.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: green;" />
+      <Button fx:id="openFileButton" layoutX="395.0" layoutY="497.0" mnemonicParsing="false" onAction="#handleOpenFile" prefHeight="40.0" prefWidth="176.0" text="Importar Documento" />
 
    </children>
 </AnchorPane>

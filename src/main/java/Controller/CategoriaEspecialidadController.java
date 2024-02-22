@@ -17,10 +17,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -80,7 +83,8 @@ public class CategoriaEspecialidadController implements Initializable {
     private MenuButton menuButton2;
     @FXML
     private Text Correcto;
-
+    @FXML
+    private Button openFileButton;
     @FXML
     public void Regresar(ActionEvent actionEvent){
         regresarMenu();
@@ -95,18 +99,32 @@ public class CategoriaEspecialidadController implements Initializable {
             puestoError.setText("Inserte un puesto");
         } else {
             puestoError.setText("");
-        }
-        if (!puestoField.getText().isEmpty()){
+
             String puesto = puestoField.getText().toLowerCase();
-            Correcto.setText("La Especialidad se ha registrado correctamente.");
 
-            Especialidad nuevaEspecialidad = new Especialidad(puesto);
-            especialidadDao.guardar(nuevaEspecialidad);
-            showCategorias();
-            puestoField.setText("");
+            // Verificar duplicados en especialidades
+            List<Especialidad> especialidades = especialidadDao.TodasEspecialidad();
+            boolean puestoDuplicado = false;
+
+            for (Especialidad especialidad : especialidades) {
+                if (especialidad.getPuesto().equalsIgnoreCase(puesto)) {
+                    puestoDuplicado = true;
+                    break;
+                }
+            }
+
+            if (!puestoDuplicado) {
+                Correcto.setText("La Especialidad se ha registrado correctamente.");
+
+                Especialidad nuevaEspecialidad = new Especialidad(puesto);
+                especialidadDao.guardar(nuevaEspecialidad);
+                showCategorias();
+                puestoField.setText("");
+            } else {
+                Correcto.setStyle("-fx-fill: red;");
+                Correcto.setText("Esa especialidad ya está registrada en la base de datos");
+            }
         }
-
-
     }
     @FXML
     public void eliminarEsepecialdad(ActionEvent actionEvent) {
@@ -328,8 +346,9 @@ public class CategoriaEspecialidadController implements Initializable {
             Correcto.setStyle("-fx-fill: red;");
             Correcto.setText("La tabla está vacía. No se pueden exportar datos.");
         } else {
-
-            escribirCSV(especialidades, "especialidades.csv");        }
+            String nombreArchivo = "Espelidades.csv";
+            String rutaCompleta = Paths.get(System.getProperty("user.home"), "Downloads", nombreArchivo).toString();
+            escribirCSV(especialidades, rutaCompleta);        }
 
     }
     private void escribirCSV(List<Especialidad> especialidades, String nombreArchivo) {
@@ -344,13 +363,76 @@ public class CategoriaEspecialidadController implements Initializable {
                 };
                 writer1.writeNext(linea);
             }
-            Path path = Paths.get(System.getProperty("user.home"), "Downloads", nombreArchivo);
-            Files.copy(Paths.get(nombreArchivo), path, StandardCopyOption.REPLACE_EXISTING);
-            Correcto.setText("Datos exportados correctamente a " + path.toString());
+
+            Correcto.setText("Datos exportados correctamente a " + nombreArchivo);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleOpenFileEspecialidad() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar Archivo CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"));
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            processCSVEspecialidadFile(selectedFile);
+        }
+    }
+
+    private void processCSVEspecialidadFile(File csvFile) {
+        try (BufferedReader lineReader = new BufferedReader(new FileReader(csvFile))) {
+            CSVParser records = CSVParser.parse(lineReader, CSVFormat.EXCEL.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim().withDelimiter(';'));
+            if (!records.getHeaderMap().containsKey("puesto")) {
+                Correcto.setStyle("-fx-fill: red;");
+                Correcto.setText("Error: El campo 'especialidad' es necesario en el archivo CSV.");
+                return;
+            }
+
+            List<Especialidad> especialidades = especialidadDao.TodasEspecialidad();
+
+            for (CSVRecord record : records) {
+
+                String nombreEspecialidad = record.get("puesto");
+
+                if (nombreEspecialidad == null || nombreEspecialidad.trim().isEmpty()) {
+                    continue;
+                }
+
+
+                nombreEspecialidad = nombreEspecialidad.trim();
+
+                boolean especialidadDuplicada = false;
+                for (Especialidad especialidad : especialidades) {
+                    if (especialidad.getPuesto().equalsIgnoreCase(nombreEspecialidad)) {
+                        especialidadDuplicada = true;
+                        break;
+                    }
+                }
+
+                if (!especialidadDuplicada) {
+                    Especialidad nuevaEspecialidad = new Especialidad(nombreEspecialidad);
+                    especialidadDao.guardar(nuevaEspecialidad);
+                    Correcto.setStyle("-fx-fill: green;");
+                    Correcto.setText("Documento guardado exitosamente.");
+                } else {
+                    Correcto.setStyle("-fx-fill: red;");
+                    Correcto.setText("Ese documento csv, ya está registrado en la base de datos");
+                }
+            }
+
+            showCategorias();
+            actualizarListaDesplegable2();
+            puestoField.setText("");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Correcto.setText("Error al procesar el archivo CSV.");
+        }
+    }
+
     @FXML
     public void guardarEspecialidadUser(ActionEvent actionEvent) {
         puestoError.setText("");
@@ -424,16 +506,18 @@ public class CategoriaEspecialidadController implements Initializable {
 
             for (Especialidad especialidadUsuario : EspecialidadUsuarios) {
                 long id = especialidadUsuario.getId();
-                MenuItem menuItem = new MenuItem(String.valueOf(id));
+                String puesto = especialidadUsuario.getPuesto();
+                String textoMenuItem = id + " - " + puesto;
+
+                MenuItem menuItem = new MenuItem(textoMenuItem);
                 menuItem.setOnAction(event -> MenuItemClick2(id));
                 menuButton2.getItems().add(menuItem);
             }
 
             MenuItemClick2(primerId);
         }
-
-
     }
+
     private void MenuItemClick ( long id){
 
         System.out.println("ID seleccionado: " + id);

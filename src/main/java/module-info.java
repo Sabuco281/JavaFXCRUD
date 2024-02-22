@@ -6,6 +6,7 @@ module com.example.javaf {
     requires org.hibernate.orm.core;
     requires java.naming;
     requires opencsv;
+    requires commons.csv;
 
 
     opens com.example.javaf to javafx.fxml;

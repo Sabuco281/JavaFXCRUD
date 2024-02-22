@@ -114,8 +114,10 @@ public class ConsultaUsuarioController implements Initializable {
             Correcto.setStyle("-fx-fill: red;");
             Correcto.setText("La tabla está vacía. No se pueden exportar datos.");
         } else {
+            String nombreArchivo = "consultaTrabajadores.csv";
+            String rutaCompleta = Paths.get(System.getProperty("user.home"), "Downloads", nombreArchivo).toString();
+            exportarEmpleadosCSV(listaEmpleados, rutaCompleta);
 
-            exportarEmpleadosCSV(listaEmpleados, "consultaTrabajdores.csv");
 
         }
     }
@@ -138,9 +140,8 @@ public class ConsultaUsuarioController implements Initializable {
                 };
                 csvWriter.writeNext(linea);
             }
-            Path path = Paths.get(System.getProperty("user.home"), "Downloads", nombreArchivo);
-            Files.copy(Paths.get(nombreArchivo), path, StandardCopyOption.REPLACE_EXISTING);
-            Correcto.setText("Datos exportados correctamente a " + path.toString());
+
+            Correcto.setText("Datos exportados correctamente a " + nombreArchivo);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -196,6 +197,6 @@ public class ConsultaUsuarioController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showUsuarios();
-        Correcto.setVisible(false);
+
     }
 }

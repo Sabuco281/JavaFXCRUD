@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
@@ -29,7 +31,7 @@
          </children>
       </AnchorPane>
       <Button layoutX="366.0" layoutY="251.0" mnemonicParsing="false" onAction="#EnlazarCat" prefHeight="25.0" prefWidth="130.0" text="Establecer Cat y User" />
-       <Button fx:id="regresar" layoutX="453.0" layoutY="353.0" mnemonicParsing="false" onAction="#Regresar" prefHeight="45.0" prefWidth="149.0" text="Menú Principal" />
+       <Button fx:id="regresar" layoutX="521.0" layoutY="413.0" mnemonicParsing="false" onAction="#Regresar" prefHeight="45.0" prefWidth="149.0" text="Menú Principal" />
       <Button fx:id="modificar" layoutX="510.0" layoutY="251.0" mnemonicParsing="false" onAction="#Modificar" prefHeight="25.0" prefWidth="95.0" text="Modificar Rol" />
       <Button layoutX="382.0" layoutY="288.0" mnemonicParsing="false" onAction="#Eliminar" prefHeight="25.0" prefWidth="113.0" text="Borrar Rol" />
       <TextField fx:id="id_Categoria" layoutX="36.0" layoutY="263.0" />
@@ -54,6 +56,10 @@
       <Text fx:id="idError" layoutX="36.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: red;" />
       <Text fx:id="idError2" layoutX="26.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: red;" />
       <Text fx:id="Correcto" layoutX="372.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: green;" />
+      <Button fx:id="openFileButton" layoutX="367.0" layoutY="413.0" mnemonicParsing="false" onAction="#handleOpenFileCategoria" prefHeight="45.0" prefWidth="129.0" text="Importar Documento" />
+      <Accordion />
+    <TitledPane animated="false" layoutX="183.0" layoutY="-53.0" text="untitled 2" />
+    <TitledPane animated="false" layoutX="161.0" layoutY="-63.0" text="untitled 3" />
 
    </children>
 </AnchorPane>

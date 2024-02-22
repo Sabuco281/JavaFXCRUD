@@ -35,8 +35,8 @@
       <Button fx:id="consultaUsuario" layoutX="229.0" layoutY="295.0" mnemonicParsing="false" onAction="#ConsultaUser" prefHeight="35.0" prefWidth="67.0" text="Buscar" />
        <Button fx:id="regresar" layoutX="542.0" layoutY="421.0" mnemonicParsing="false" onAction="#Regresar" prefHeight="45.0" prefWidth="149.0" text="Menú Principal" />
       <Button layoutX="340.0" layoutY="300.0" mnemonicParsing="false" onAction="#guardarCSV" text="Descargar Tabla" />
-      <Text fx:id="Correcto" layoutX="241.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: green;" />
       <Button layoutX="466.0" layoutY="300.0" mnemonicParsing="false" onAction="#refrescar" text="Refrescar Tabla" />
+      <Text fx:id="Correcto" layoutX="241.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: green;" />
 
    </children>
 </AnchorPane>

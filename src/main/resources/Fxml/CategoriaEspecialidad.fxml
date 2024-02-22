@@ -26,7 +26,7 @@
          </children>
       </AnchorPane>
       <Button fx:id="AsignarEsp" layoutX="352.0" layoutY="267.0" mnemonicParsing="false" onAction="#asginarEspe" text="Establecer Usuario y Espe" />
-       <Button fx:id="regresar" layoutX="445.0" layoutY="396.0" mnemonicParsing="false" onAction="#Regresar" prefHeight="45.0" prefWidth="149.0" text="Menú Principal" />
+       <Button fx:id="regresar" layoutX="549.0" layoutY="399.0" mnemonicParsing="false" onAction="#Regresar" prefHeight="45.0" prefWidth="149.0" text="Menú Principal" />
       <Button fx:id="Eliminar" layoutX="349.0" layoutY="318.0" mnemonicParsing="false" onAction="#eliminarEsepecialdad" prefHeight="25.0" prefWidth="125.0" text="Borrar Especialidad" />
       <Button layoutX="526.0" layoutY="267.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="137.0" text="Modificar Especialidad" />
       <TextField fx:id="usuarioField" layoutX="14.0" layoutY="343.0" />
@@ -52,6 +52,7 @@
       <Accordion />
       <Text fx:id="idUsuarioError" layoutX="14.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: red;" />
       <Text fx:id="Correcto" layoutX="373.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: green;" />
+      <Button fx:id="openFileButton" onAction="#handleOpenFileEspecialidad" layoutX="386.0" layoutY="399.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="128.0" text="Importar Documento" />
 
    </children>
 </AnchorPane>
