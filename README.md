@@ -33,7 +33,7 @@ cmd
 
 :: Ejemplo de ejecución en un sistema Windows
 C:\ruta\a\tu\jdk\bin\java.exe -jar C:\ruta\a\tu\proyecto\JavaF.jar
-
+\```
 ### Configuración de Hibernate
 
 El archivo `hibernate.cfg.xml` proporciona la configuración para Hibernate, la herramienta de mapeo objeto-relacional.Asegúrate de que esté configurado correctamente, especialmente el puerto al que estás haciendo la conexión (en este caso, localhost:3306) y el nombre de la base de datos (en este caso, "gestionusuarios"). Si no realizas esta verificación, es posible que no puedas visualizar la base de datos y que se genere un error.
@@ -58,4 +58,5 @@ El archivo `hibernate.cfg.xml` proporciona la configuración para Hibernate, la 
     </session-factory>
 </hibernate-configuration>
 
+\```
 ### Comandos de Ejecución
