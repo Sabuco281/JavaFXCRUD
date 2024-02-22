@@ -14,7 +14,7 @@ Este software proporciona una interfaz intuitiva para la gestión de empleados e
 
 ### Manejo de Xampp y Phpmyadmin
 Una vez ya instalado el xampp y lo inicies, tendrás que activar el apache y Mysql presionando en los dos botones start, una vez activado, pon en el navegador web localhost o (http://localhost/dashboard/)
-le llevara al xampp luego seleccione phpadmin ahí tendrá que poner usuario y contraseña que serán siempre root, ya que es la primera vez que accedemos, y la contraseña no se pone nada, entonces le damos a continuar, y se vera el phpadmin, nos vamos donde ponga importar y ahí importamos el sql de gestionusuarios veremos que hay un botón de examinar se pone ahí y luego nos vamos abajo del todo donde lo importare y se creara la base de datos
+le llevara al xampp luego seleccione phpadmin ahí tendrá que poner usuario y contraseña que serán siempre root, ya que es la primera vez que accedemos, y la contraseña no se pone nada, entonces le damos a continuar, y se vera el phpadmin, nos vamos donde ponga importar y ahí importamos el sql de gestionusuarios veremos que hay un botón de examinar se pone ahí y luego nos vamos abajo del todo donde lo importare y se creara la base de datos.
 
 ```gestionusuarios.sql
 
