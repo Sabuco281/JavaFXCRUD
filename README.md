@@ -191,12 +191,12 @@ Y si da problemas de fallo de librerías, tendría que descargar las librerías 
 
 ```bash
 :: Ejemplo de ejecución en un sistema Unix (Linux o macOS)
-$ /ruta/a/tu/jdk/bin/java -jar /ruta/a/tu/proyecto/JavaF.jar
+$ /JavaF/artifacts/JavaF_jar> C:/.jdks/corretto-11.0.22/bin/java.exe -jar JavaF.jar
 
 cmd
 
 :: Ejemplo de ejecución en un sistema Windows
-C:\ruta\a\tu\jdk\bin\java.exe -jar C:\ruta\a\tu\proyecto\JavaF.jar
+C:\JavaF\artifacts\JavaF_jar> C:\.jdks\corretto-11.0.22\bin\java.exe -jar JavaF.jar
 ```
 ### Configuración de Hibernate
 
